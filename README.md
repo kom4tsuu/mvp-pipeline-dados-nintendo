@@ -1,15 +1,10 @@
 # MVP: Construção de um Pipeline de Dados na Nuvem — Catálogo de Jogos da Nintendo
 
-**Autor:** Rodrigo Komatsu
-**Repositório GitHub:** https://github.com/repos?q=owner%3A%40me *(substitua pelo link direto do repositório específico deste trabalho antes da entrega)*
+**Autor:** Rodrigo Komatsu Shinkado
+**Matrícula:** 4052025002104
+**Repositório GitHub:** https://github.com/kom4tsuu/mvp-pipeline-dados-nintendo
 **Ambiente de nuvem:** Databricks Free Edition
 **Dataset:** `NintendoGames.csv` — jogos da Nintendo com notas de crítica e usuários (Metacritic)
-
-> ⚠️ Antes de entregar, confirme o link do repositório específico deste MVP (o link atual aponta
-> para a listagem geral dos seus repositórios) e anexe os screenshots indicados ao longo deste
-> documento — eles não podem ser gerados automaticamente e são exigência do enunciado (itens 7 e 8).
-
----
 
 ## 1. Contexto de Negócio e Perguntas (Etapa 2 e 4.1)
 
