@@ -32,6 +32,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC GROUP BY p.nome_plataforma
 # MAGIC ORDER BY media_meta_score DESC
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Resposta:** o **N64** lidera com nota média de crítica **83,97** (31 jogos), seguido por
 # MAGIC **GBA (79,0)**, **Switch (78,0)** e **GameCube (77,9)**. As plataformas mais recentes e com
@@ -51,6 +53,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC SELECT corr(meta_score, user_score * 10) AS correlacao_meta_user
 # MAGIC FROM nintendo_games.gold.fato_jogos
 # MAGIC WHERE meta_score IS NOT NULL AND user_score IS NOT NULL
+
+# COMMAND ----------
 
 # MAGIC %md
 # MAGIC **Resposta:** correlação de **0,625** (n=690 jogos com ambas as notas) — moderada a forte e
@@ -75,6 +79,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC HAVING COUNT(*) >= 15
 # MAGIC ORDER BY media_meta_score DESC
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Resposta:** **Strategy** (82,1, 91 jogos) e **Action Adventure** (81,3, 63 jogos) têm as
 # MAGIC melhores médias entre gêneros com volume relevante (≥15 jogos). **Role-Playing** também se
@@ -98,6 +104,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC WHERE d.ano <= 2023
 # MAGIC GROUP BY d.ano
 # MAGIC ORDER BY d.ano
+
+# COMMAND ----------
 
 # MAGIC %md
 # MAGIC **Resposta:** o volume de lançamentos cresce fortemente até um pico em **2007 (86)** e
@@ -127,6 +135,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC ORDER BY media_meta_score DESC
 # MAGIC LIMIT 15
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Resposta:** **Retro Studios** lidera com média **89,4** (10 jogos — inclui a série Metroid
 # MAGIC Prime), seguida por **Monolith Soft (83,7)** e **Rare Ltd. (83,7)**. **Intelligent Systems**
@@ -150,6 +160,8 @@ spark.sql(f"USE CATALOG {CATALOG}")
 # MAGIC JOIN nintendo_games.gold.dim_classificacao_etaria ce ON f.classificacao_id = ce.classificacao_id
 # MAGIC GROUP BY ce.sigla_esrb, ce.descricao
 # MAGIC ORDER BY media_meta_score DESC
+
+# COMMAND ----------
 
 # MAGIC %md
 # MAGIC **Resposta:** jogos classificados **T (Adolescentes)** têm a maior média (79,5), seguidos por
