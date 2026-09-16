@@ -30,6 +30,8 @@ nulos = df.select([
 ])
 display(nulos)
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Achados (calculados sobre os 1094 registros):**
 # MAGIC - `meta_score`: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca
@@ -54,6 +56,8 @@ duplicatas = df.groupBy("title", "platform").count().filter("count > 1")
 print("Pares (title, platform) duplicados:", duplicatas.count())
 display(duplicatas)
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Achado:** 2 pares duplicados de `title`+`platform`. **Tratamento:** removidos via
 # MAGIC `dropDuplicates(["title","platform"])` na Silver, mantendo a primeira ocorrência.
@@ -67,6 +71,8 @@ display(duplicatas)
 print("Valores distintos de platform:")
 df.groupBy("platform").count().orderBy(F.desc("count")).show(20, truncate=False)
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Achado:** o valor `TG16)` aparece 1 vez e não corresponde a nenhuma plataforma Nintendo
 # MAGIC válida (resíduo de parsing da fonte original). **Tratamento:** registro descartado na Silver,
@@ -77,6 +83,8 @@ df.groupBy("platform").count().orderBy(F.desc("count")).show(20, truncate=False)
 nao_data = df.filter(~F.col("date").rlike(r"^[A-Za-z]{3} \d{1,2}, \d{4}$"))
 print("Registros com 'date' fora do padrão MMM d, yyyy:", nao_data.count())
 nao_data.groupBy("date").count().orderBy(F.desc("count")).show(20, truncate=False)
+
+# COMMAND ----------
 
 # MAGIC %md
 # MAGIC **Achado:** 30 registros com `date` fora do padrão (`TBA`, `Canceled`, `TBA 2024`,
@@ -99,6 +107,8 @@ df.select(
     F.max(F.col("user_score").cast("double")).alias("user_score_max"),
 ).show()
 
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC **Achado:** `meta_score` varia de 37 a 99 (dentro da escala válida 0-100) e `user_score` fica
 # MAGIC dentro de 0-10. Nenhum valor fora do domínio esperado foi encontrado — não foi necessário
@@ -116,6 +126,8 @@ iqr = q3 - q1
 lim_inf, lim_sup = q1 - 1.5 * iqr, q3 + 1.5 * iqr
 outliers = df.filter((F.col("meta_score") < lim_inf) | (F.col("meta_score") > lim_sup))
 print(f"Limites IQR para meta_score: [{lim_inf:.1f}, {lim_sup:.1f}] | Outliers encontrados: {outliers.count()}")
+
+# COMMAND ----------
 
 # MAGIC %md
 # MAGIC **Achado:** aplicando a regra do IQR (1,5x) sobre `meta_score`, não há outliers relevantes —
