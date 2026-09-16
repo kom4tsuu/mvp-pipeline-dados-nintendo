@@ -56,23 +56,40 @@ print(f"Registros descartados por plataforma inválida: {linhas_antes - df.count
 # MAGIC `TBA 2024`, `Q4 2015`), que representam jogos sem lançamento confirmado. Em vez de descartar
 # MAGIC essas linhas (perderíamos informação de catálogo), criamos uma coluna de status e convertemos
 # MAGIC apenas o que é de fato uma data para `DateType`; o resto vira `NULL` em `release_date`.
+# MAGIC
+# MAGIC Importante: a classificação do status é feita testando se o texto **tem formato de data
+# MAGIC válido** (regex `^[A-Za-z]{3} \d{1,2}, \d{4}$`), e não apenas verificando os textos `TBA`/
+# MAGIC `Canceled` isoladamente — isso evita que valores inesperados (como `"Q4 2015"`) escapem da
+# MAGIC checagem e quebrem a conversão de data. Usamos `try_to_date` como camada extra de segurança.
 
 # COMMAND ----------
+
+# Primeiro identificamos se o texto realmente tem cara de data completa (ex: "Nov 17, 2023").
+# Qualquer coisa fora desse padrao (TBA, Canceled, "Q4 2015", ou qualquer outro texto
+# que apareca no futuro) e tratada como "sem data confirmada", em vez de tentar forcar
+# a conversao e quebrar o pipeline.
+df = df.withColumn(
+    "is_valid_date_format",
+    F.col("date").rlike(r"^[A-Za-z]{3} \d{1,2}, \d{4}$")
+)
 
 df = df.withColumn(
     "release_status",
     F.when(F.col("date") == "Canceled", "Cancelado")
-     .when(F.col("date").rlike("^TBA"), "A anunciar")
+     .when(F.col("is_valid_date_format") == False, "A anunciar")
      .otherwise("Lancado")
 )
 
+# try_to_date: versao tolerante do to_date, retorna NULL em vez de lancar erro caso
+# ainda exista algum valor inesperado que a checagem acima nao tenha pego.
 df = df.withColumn(
     "release_date",
-    F.when(F.col("release_status") == "Lancado", F.to_date("date", "MMM d, yyyy"))
+    F.when(F.col("release_status") == "Lancado", F.try_to_date("date", "MMM d, yyyy"))
      .otherwise(F.lit(None).cast("date"))
 )
 
 df = df.withColumn("release_year", F.year("release_date"))
+df = df.drop("is_valid_date_format")
 
 df.groupBy("release_status").count().show()
 
