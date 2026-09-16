@@ -95,16 +95,33 @@ nao_data.groupBy("date").count().orderBy(F.desc("count")).show(20, truncate=Fals
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC ## 3.5 Conversão numérica para fins de análise
+# MAGIC A tabela `bronze.jogos_raw` guarda `meta_score` e `user_score` como texto (`StringType`) de
+# MAGIC propósito — é o princípio da camada Bronze: preservar o dado exatamente como chegou, sem
+# MAGIC tipagem. A conversão de tipo "de verdade" (permanente) acontece na Silver. Aqui, só para
+# MAGIC calcular estatísticas (mínimo, máximo, quartis), criamos colunas numéricas auxiliares
+# MAGIC dentro deste notebook — sem alterar a tabela Bronze original.
+
+# COMMAND ----------
+
+df = (
+    df.withColumn("meta_score_num", F.col("meta_score").cast("double"))
+      .withColumn("user_score_num", F.col("user_score").cast("double"))
+)
+
+# COMMAND ----------
+
 # MAGIC %md ## 4. Acurácia — faixas de valores esperadas
 
 # COMMAND ----------
 
 df.select(
-    F.min("meta_score").alias("meta_score_min"), F.max("meta_score").alias("meta_score_max"),
+    F.min("meta_score_num").alias("meta_score_min"), F.max("meta_score_num").alias("meta_score_max"),
 ).show()
 df.select(
-    F.min(F.col("user_score").cast("double")).alias("user_score_min"),
-    F.max(F.col("user_score").cast("double")).alias("user_score_max"),
+    F.min("user_score_num").alias("user_score_min"),
+    F.max("user_score_num").alias("user_score_max"),
 ).show()
 
 # COMMAND ----------
@@ -121,10 +138,10 @@ df.select(
 # COMMAND ----------
 
 from pyspark.sql import functions as F
-q1, q3 = df.approxQuantile("meta_score", [0.25, 0.75], 0.01)
+q1, q3 = df.approxQuantile("meta_score_num", [0.25, 0.75], 0.01)
 iqr = q3 - q1
 lim_inf, lim_sup = q1 - 1.5 * iqr, q3 + 1.5 * iqr
-outliers = df.filter((F.col("meta_score") < lim_inf) | (F.col("meta_score") > lim_sup))
+outliers = df.filter((F.col("meta_score_num") < lim_inf) | (F.col("meta_score_num") > lim_sup))
 print(f"Limites IQR para meta_score: [{lim_inf:.1f}, {lim_sup:.1f}] | Outliers encontrados: {outliers.count()}")
 
 # COMMAND ----------
