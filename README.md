@@ -60,8 +60,8 @@ O `NintendoGames.csv` foi enviado para um **Volume do Unity Catalog**
 tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com metadados de
 controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para rastreabilidade.
 
-📸 **Screenshot a anexar aqui:** tela do Volume com o CSV enviado + resultado da célula final do
-notebook Bronze mostrando a tabela `bronze.jogos_raw` no Catalog Explorer.
+<img width="693" height="443" alt="image" src="https://github.com/user-attachments/assets/a2a8d5bc-472e-492a-a0d9-3f9796207d3b" />
+
 
 ---
 
