@@ -82,8 +82,6 @@ display(spark.sql(f"SELECT * FROM {CATALOG}.bronze.jogos_raw LIMIT 10"))
 
 # MAGIC %md
 # MAGIC ## 5. Evidência para o README
-# MAGIC Tire um screenshot desta célula e da aba **Catalog → nintendo_games → bronze → jogos_raw**
-# MAGIC mostrando a tabela persistida, para anexar na seção "Carga dos Dados" do documento final.
 
 # COMMAND ----------
 
