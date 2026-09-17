@@ -81,21 +81,6 @@ cenário real, com múltiplas cargas ao longo do tempo, essas colunas permitem r
 
 Por fim, o DataFrame é gravado como tabela Delta (`bronze.jogos_raw`) dentro do Unity Catalog. Usar o formato Delta em vez de simplesmente manter o CSV como arquivo é o que transforma o armazenamento bruto em Lakehouse de verdade: passa a existir controle transacional, histórico de versões (time travel) e a possibilidade de consultar o dado com SQL diretamente, preparando o terreno para as transformações da camada Silver.
 
-Tabela Delta (Bronze):
-
-|meta_score|title|platform|date|user_score|link|esrb_rating|developers|genres|_ingestion_timestamp|_source_file|_source_origin|
-|---|---|---|---|---|---|---|---|---|---|---|---|
-|null|Super Mario RPG|Switch|Nov 17, 2023|null|/game/switch/super-mario-rpg|E|['Nintendo']|['Role-Playing', 'Japanese-Style']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|null|WarioWare: Move It!|Switch|Nov 3, 2023|null|/game/switch/warioware-move-it!|RP|['Intelligent Systems']|['Miscellaneous', 'Party / Minigame']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|null|Super Mario Bros. Wonder|Switch|Oct 20, 2023|null|/game/switch/super-mario-bros-wonder|E|['Nintendo']|['Action', 'Platformer', '2D']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|null|Detective Pikachu Returns|Switch|Oct 6, 2023|null|/game/switch/detective-pikachu-returns|null|['Creatures Inc.']|['Adventure', '3D', 'Third-Person']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|null|Fae Farm|Switch|Sep 8, 2023|null|/game/switch/fae-farm|E10+|['Phoenix Labs']|['Simulation', 'Virtual', 'Virtual Life']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|87|Pikmin 4|Switch|Jul 21, 2023|9.0|/game/switch/pikmin-4|E10+|['Nintendo']|['Strategy', 'Real-Time', 'General']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|null|Pokemon Sleep|iOS|Jul 20, 2023|null|/game/ios/pokemon-sleep|null|['The Pokemon Company', ' Select Button']|['Role-Playing', 'Miscellaneous', 'Application', 'Trainer']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|74|Mario Kart 8 Deluxe: Booster Course Pass - Wave 5|Switch|Jul 12, 2023|7.6|/game/switch/mario-kart-8-deluxe-booster-course-pass---wave-5|null|['Nintendo']|['Racing', 'Arcade', 'Automobile']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|56|Everybody 1-2-Switch!|Switch|Jun 30, 2023|5.4|/game/switch/everybody-1-2-switch!|E|['Nintendo']|['Miscellaneous', 'Party / Minigame']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-|82|Pikmin 1|Switch|Jun 21, 2023|8.4|/game/switch/pikmin-1|E10+|['Nintendo']|['Strategy', 'Real-Time', 'General']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
-
 ---
 
 ## 3. Modelagem e Catálogo de Dados (Etapa 4.3)
