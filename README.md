@@ -142,19 +142,40 @@ Consultas completas em [`notebooks/05_analise.py`](notebooks/05_analise.py). Res
 
 **1. Qual plataforma Nintendo possui, em média, os jogos mais bem avaliados pela crítica?** o N64 lidera com nota média de crítica 83,97 (31 jogos), seguido por GBA (79,0), Switch (78,0) e GameCube (77,9). As plataformas mais recentes e com catálogo maior — 3DS (73,5) e WII (73,5) — ficam nas posições mais baixas. Isso sugere que catálogos menores e mais curados (N64, GBA, GC) tendem a ter nota média mais alta do que catálogos grandes com jogos de nicho ou menor orçamento (3DS, WII, com centenas de títulos). iOS tem a pior média (67,4), mas com base pequena (14 jogos).
 
-<img width="684" height="256" alt="image" src="https://github.com/user-attachments/assets/492c8d51-78cd-418e-833a-82503757fa32" />
+|nome_plataforma|qtd_jogos|media_meta_score|media_user_score|
+|---|---|---|---|
+|N64|31|83.97|8.31|
+|GBA|64|79|8.23|
+|Switch|209|78.01|7.4|
+|GC|52|77.9|8.21|
+|DS|196|76.05|7.67|
+|WIIU|80|74.98|7.7|
+|3DS|258|73.49|7.37|
+|WII|187|73.34|7.98|
+|iOS|14|67.42|5.82|
 
 **2. Existe correlação entre a nota da crítica (`meta_score`) e a nota dos usuários (`user_score`)?** correlação de 0,625 (n=690 jogos com ambas as notas) — moderada a forte e positiva. Crítica e usuários tendem a concordar na direção geral (jogo bem avaliado por um lado tende a ser bem avaliado pelo outro), mas a correlação não é perto de 1, então há espaço real de divergência: existem jogos "queridinhos da crítica" que usuários avaliam pior, e vice-versa.
 
-<img width="241" height="52" alt="image" src="https://github.com/user-attachments/assets/1baf7a65-186a-4fa4-9c91-3c4424870b38" />
+|correlacao_meta_user|
+|---|
+|0.625559270411665|
 
 **3. Quais gêneros de jogos concentram as maiores notas médias de crítica?** Strategy (82,1, 91 jogos) e Action Adventure (81,3, 63 jogos) têm as melhores médias entre gêneros com volume relevante (≥15 jogos). Role-Playing também se destaca (77,9, 139 jogos — o segundo maior volume). No outro extremo, Adventure (68,9) e Miscellaneous (72,5, mas com 234 jogos — o maior volume do catálogo) puxam a média para baixo, consistente com "Miscellaneous" normalmente agrupar jogos de menor orçamento/minigames.
 
-<img width="486" height="282" alt="image" src="https://github.com/user-attachments/assets/c6f460f0-5dac-448a-a987-df8ca31d9a27" />
+|nome_genero|qtd_jogos|media_meta_score|
+|---|---|---|
+|Strategy|91|82.14|
+|Action Adventure|63|81.33|
+|Driving|38|78.68|
+|Role-Playing|139|77.91|
+|Action|329|76|
+|Simulation|39|74.94|
+|Puzzle|34|74.93|
+|Sports|67|72.68|
+|Miscellaneous|233|72.52|
+|Adventure|17|68.92|
 
-**4. Como evoluíram o número de lançamentos e a nota média de crítica ao longo dos anos?** volume de lançamentos cresce até picos em 2007 (86) e 2009 (90); a nota
-média de crítica é mais alta nos anos iniciais (1996-2002, quase sempre >80) e se estabiliza em
-73-78 a partir de 2004, quando o volume de lançamentos aumenta.
+**4. Como evoluíram o número de lançamentos e a nota média de crítica ao longo dos anos?** o volume de lançamentos cresce fortemente até um pico em 2007 (86) e 2009 (90) — era Wii/DS — depois oscila entre 40-70 lançamentos/ano na década seguinte. A nota média de crítica, por outro lado, é mais alta nos anos iniciais (1996-2002, quase sempre acima de 80) e cai e se estabiliza em torno de 73-78 a partir de 2004, quando o volume de lançamentos explode. Isso é coerente com a Pergunta 1: mais jogos no catálogo tende a puxar a média para baixo (mais variedade de orçamento e qualidade).
 
 |ano|qtd_lancamentos|media_meta_score|
 |---|---|---|
