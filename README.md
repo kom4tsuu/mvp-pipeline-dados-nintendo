@@ -144,15 +144,47 @@ Consultas completas em [`notebooks/05_analise.py`](notebooks/05_analise.py). Res
 
 <img width="684" height="256" alt="image" src="https://github.com/user-attachments/assets/492c8d51-78cd-418e-833a-82503757fa32" />
 
-**2. Correlação crítica x usuários:** 0,625 (moderada a forte, positiva, n=690) — concordância
-geral, mas com espaço real de divergência entre os dois públicos.
+**2. Existe correlação entre a nota da crítica (`meta_score`) e a nota dos usuários (`user_score`)?** correlação de 0,625 (n=690 jogos com ambas as notas) — moderada a forte e positiva. Crítica e usuários tendem a concordar na direção geral (jogo bem avaliado por um lado tende a ser bem avaliado pelo outro), mas a correlação não é perto de 1, então há espaço real de divergência: existem jogos "queridinhos da crítica" que usuários avaliam pior, e vice-versa.
 
-**3. Gêneros com melhor nota (≥15 jogos):** Strategy (82,1) e Action Adventure (81,3) lideram;
-Adventure (68,9) e Miscellaneous (72,5) ficam abaixo da média.
+<img width="241" height="52" alt="image" src="https://github.com/user-attachments/assets/1baf7a65-186a-4fa4-9c91-3c4424870b38" />
 
-**4. Evolução por ano:** volume de lançamentos cresce até picos em 2007 (86) e 2009 (90); a nota
+**3. Quais gêneros de jogos concentram as maiores notas médias de crítica?** Strategy (82,1, 91 jogos) e Action Adventure (81,3, 63 jogos) têm as melhores médias entre gêneros com volume relevante (≥15 jogos). Role-Playing também se destaca (77,9, 139 jogos — o segundo maior volume). No outro extremo, Adventure (68,9) e Miscellaneous (72,5, mas com 234 jogos — o maior volume do catálogo) puxam a média para baixo, consistente com "Miscellaneous" normalmente agrupar jogos de menor orçamento/minigames.
+
+<img width="486" height="282" alt="image" src="https://github.com/user-attachments/assets/c6f460f0-5dac-448a-a987-df8ca31d9a27" />
+
+**4. Como evoluíram o número de lançamentos e a nota média de crítica ao longo dos anos?** volume de lançamentos cresce até picos em 2007 (86) e 2009 (90); a nota
 média de crítica é mais alta nos anos iniciais (1996-2002, quase sempre >80) e se estabiliza em
 73-78 a partir de 2004, quando o volume de lançamentos aumenta.
+
+ano	qtd_lancamentos	media_meta_score
+1996	3	88.67
+1997	5	89
+1998	4	85.25
+1999	4	81.5
+2000	11	82.64
+2001	14	84.93
+2002	16	81.5
+2003	25	81.28
+2004	37	76.09
+2005	39	75.92
+2006	52	74.6
+2007	85	74.57
+2008	38	73.04
+2009	90	74.7
+2010	67	75.33
+2011	42	73.82
+2012	48	72.77
+2013	70	73.97
+2014	43	76.24
+2015	41	70.45
+2016	54	76.97
+2017	73	76.36
+2018	49	75.94
+2019	43	77.73
+2020	38	75.38
+2021	27	75.11
+2022	17	78.33
+2023	26	81
 
 **5. Desenvolvedoras (excl. Nintendo, ≥8 jogos):** Retro Studios lidera (89,4), seguida de
 Monolith Soft e Rare Ltd. (83,7 cada). Intelligent Systems tem o maior volume entre terceiros
@@ -160,7 +192,6 @@ com nota consistentemente alta (99 jogos, média 80,8).
 
 **6. Influência da classificação ESRB:** diferença pequena entre categorias (75,7 a 79,5) — não é
 um fator determinante de qualidade.
-![Uploading image.png…]()
 
 
 ---
