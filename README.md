@@ -118,7 +118,10 @@ Resumo:
 **Evidências:**
 
 **Completude — valores nulos/vazios por coluna**
-<img width="984" height="56" alt="image" src="https://github.com/user-attachments/assets/d35fce69-d8c2-4dac-b08f-d40158161d97" />
+<img width="1289" height="246" alt="image" src="https://github.com/user-attachments/assets/a0ac854a-cbcd-44be-bd03-af0dee6f154b" />
+
+**Unicidade — duplicatas**
+<img width="1154" height="39" alt="image" src="https://github.com/user-attachments/assets/87ddb8e2-ab0c-4f8d-afee-9e08a3919321" />
 
 
 ---
