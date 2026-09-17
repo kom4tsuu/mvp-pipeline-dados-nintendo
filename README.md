@@ -32,9 +32,7 @@ etária ESRB, desenvolvedora(s) e gênero(s).
 ### Licença dos dados
 O arquivo corresponde ao dataset **"Nintendo Games"**, obtido via scraping do site
 metacritic.com e distribuído publicamente (ex.: Kaggle), sob **licença CC0: Public Domain** —
-uso, modificação e redistribuição livres, sem necessidade de atribuição. *(Confirme a página
-exata de origem do seu arquivo específico e cite o link junto a esta seção, caso ele indique
-uma licença diferente.)*
+uso, modificação e redistribuição livres, sem necessidade de atribuição.
 
 ### Problema
 **Quais fatores (plataforma, gênero, desenvolvedora, classificação etária, ano de lançamento)
