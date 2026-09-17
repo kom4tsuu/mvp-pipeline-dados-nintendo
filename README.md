@@ -115,7 +115,11 @@ Resumo:
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
 | Outliers | Nenhum outlier relevante em `meta_score` pela regra do IQR | Não foi necessário tratamento |
 
-📸 **Screenshot a anexar aqui:** resultados das queries de qualidade rodando no notebook.
+**Evidências:**
+
+**Completude — valores nulos/vazios por coluna**
+<img width="984" height="56" alt="image" src="https://github.com/user-attachments/assets/d35fce69-d8c2-4dac-b08f-d40158161d97" />
+
 
 ---
 
