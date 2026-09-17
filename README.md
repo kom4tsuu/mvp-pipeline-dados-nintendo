@@ -58,7 +58,15 @@ O `NintendoGames.csv` foi enviado para um **Volume do Unity Catalog**
 tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com metadados de
 controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para rastreabilidade.
 
-<img width="693" height="443" alt="image" src="https://github.com/user-attachments/assets/a2a8d5bc-472e-492a-a0d9-3f9796207d3b" />
+** Etapa 1 - Configuração do catálogo e schemas**
+
+** Etapa 2 - Leitura do CSV bruto**
+
+Lemos tudo como string por enquanto — tipagem correta é responsabilidade da camada Silver. Isso preserva o dado exatamente como chegou (princípio da camada Bronze).
+
+** Etapa 3 - Adição de metadados de controle (linhagem/rastreabilidade)**
+
+** Etapa 4 - Persistência como tabela Delta (Bronze)**
 
 
 ---
