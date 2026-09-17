@@ -142,13 +142,11 @@ Achado: 2 pares duplicados de title+platform. Tratamento: removidos via dropDupl
 
 **Consistência — formato de platform e date**
 
-Valores distintos de platform:
-<img width="117" height="263" alt="image" src="https://github.com/user-attachments/assets/6f3f456b-74ec-4f66-90df-c018ec317f72" />
+<img width="218" height="282" alt="image" src="https://github.com/user-attachments/assets/550a8277-94dc-4fca-9b44-c0ebc8b72428" />
 
 Achado: o valor TG16) aparece 1 vez e não corresponde a nenhuma plataforma Nintendo válida (resíduo de parsing da fonte original). Tratamento: registro descartado na Silver, com a decisão documentada (não é seguro inferir a plataforma correta a partir de 1 registro).
 
-Registros com 'date' fora do padrão MMM d, yyyy: 30
-<img width="120" height="186" alt="image" src="https://github.com/user-attachments/assets/3a043713-1f6f-4d5a-b450-2259bdc54ce6" />
+<img width="373" height="208" alt="image" src="https://github.com/user-attachments/assets/427b9b50-bb43-4fcc-bd78-55fbba0cf791" />
 
 Achado: 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados. Tratamento: criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.
 
