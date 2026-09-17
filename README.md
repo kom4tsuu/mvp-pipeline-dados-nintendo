@@ -66,14 +66,35 @@ A seguir são descritas as etapas para efetuar a carga dos dados:
 
 **Etapa 1 - Configuração do catálogo e schemas**
 
+Antes de qualquer ingestão, o notebook garante que o catálogo `nintendo_games` e os schemas `bronze`, `silver` e `gold` existam no Unity Catalog. Essa etapa é o que dá organização ao Lakehouse desde o início: cada camada da Arquitetura Medalhão vive isolada no seu próprio schema, o que evita confusão entre dado bruto e dado tratado e facilita aplicar permissões de acesso diferentes para cada camada no futuro.
+
 **Etapa 2 - Leitura do CSV bruto**
 
-Lê-se tudo como string por enquanto — tipagem correta é responsabilidade da camada Silver. Isso preserva o dado exatamente como chegou (princípio da camada Bronze).
+O arquivo é lido diretamente do Volume com `spark.read.csv`, com todas as colunas tratadas como texto. Essa decisão é intencional: o objetivo da camada Bronze não é interpretar ou corrigir o dado, e sim trazê-lo para dentro do ambiente de nuvem exatamente como ele chegou da fonte original. Qualquer tipagem ou correção fica reservada para a etapa seguinte do pipeline (Silver), evitando que um erro de conversão precoce esconda um problema real do dado de origem.
 
 **Etapa 3 - Adição de metadados de controle (linhagem/rastreabilidade)**
 
+Colunas como `_ingestion_timestamp` (quando o dado entrou no pipeline) e `_source_file`/`_source_origin` (de onde ele veio) são adicionadas ao dado bruto. Essa etapa é o que garante rastreabilidade: em um
+cenário real, com múltiplas cargas ao longo do tempo, essas colunas permitem responder perguntas como "quando esse registro entrou no sistema?" e "de qual arquivo/fonte ele veio?", sem depender da memória de quem construiu o pipeline.
+
 **Etapa 4 - Persistência como tabela Delta (Bronze)**
 
+Por fim, o DataFrame é gravado como tabela Delta (`bronze.jogos_raw`) dentro do Unity Catalog. Usar o formato Delta em vez de simplesmente manter o CSV como arquivo é o que transforma o armazenamento bruto em Lakehouse de verdade: passa a existir controle transacional, histórico de versões (time travel) e a possibilidade de consultar o dado com SQL diretamente, preparando o terreno para as transformações da camada Silver.
+
+Tabela Delta (Bronze)
+
+|meta_score|title|platform|date|user_score|link|esrb_rating|developers|genres|_ingestion_timestamp|_source_file|_source_origin|
+|---|---|---|---|---|---|---|---|---|---|---|---|
+|null|Super Mario RPG|Switch|Nov 17, 2023|null|/game/switch/super-mario-rpg|E|['Nintendo']|['Role-Playing', 'Japanese-Style']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|null|WarioWare: Move It!|Switch|Nov 3, 2023|null|/game/switch/warioware-move-it!|RP|['Intelligent Systems']|['Miscellaneous', 'Party / Minigame']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|null|Super Mario Bros. Wonder|Switch|Oct 20, 2023|null|/game/switch/super-mario-bros-wonder|E|['Nintendo']|['Action', 'Platformer', '2D']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|null|Detective Pikachu Returns|Switch|Oct 6, 2023|null|/game/switch/detective-pikachu-returns|null|['Creatures Inc.']|['Adventure', '3D', 'Third-Person']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|null|Fae Farm|Switch|Sep 8, 2023|null|/game/switch/fae-farm|E10+|['Phoenix Labs']|['Simulation', 'Virtual', 'Virtual Life']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|87|Pikmin 4|Switch|Jul 21, 2023|9.0|/game/switch/pikmin-4|E10+|['Nintendo']|['Strategy', 'Real-Time', 'General']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|null|Pokemon Sleep|iOS|Jul 20, 2023|null|/game/ios/pokemon-sleep|null|['The Pokemon Company', ' Select Button']|['Role-Playing', 'Miscellaneous', 'Application', 'Trainer']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|74|Mario Kart 8 Deluxe: Booster Course Pass - Wave 5|Switch|Jul 12, 2023|7.6|/game/switch/mario-kart-8-deluxe-booster-course-pass---wave-5|null|['Nintendo']|['Racing', 'Arcade', 'Automobile']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|56|Everybody 1-2-Switch!|Switch|Jun 30, 2023|5.4|/game/switch/everybody-1-2-switch!|E|['Nintendo']|['Miscellaneous', 'Party / Minigame']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
+|82|Pikmin 1|Switch|Jun 21, 2023|8.4|/game/switch/pikmin-1|E10+|['Nintendo']|['Strategy', 'Real-Time', 'General']|2026-09-16T22:52:35.195+00:00|NintendoGames.csv|Kaggle - Nintendo Games Dataset (scraped from metacritic.com), licenca CC0: Public Domain|
 
 ---
 
