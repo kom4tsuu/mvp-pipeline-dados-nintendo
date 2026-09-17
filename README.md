@@ -143,49 +143,17 @@ Achado: 2 pares duplicados de title+platform. Tratamento: removidos via dropDupl
 **Consistência — formato de platform e date**
 
 Valores distintos de platform:
-+--------+-----+
-|platform|count|
-+--------+-----+
-|3DS     |259  |
-|Switch  |209  |
-|DS      |196  |
-|WII     |188  |
-|WIIU    |80   |
-|GBA     |64   |
-|GC      |52   |
-|N64     |31   |
-|iOS     |14   |
-|TG16)   |1    |
-+--------+-----+
+<img width="117" height="263" alt="image" src="https://github.com/user-attachments/assets/6f3f456b-74ec-4f66-90df-c018ec317f72" />
 
 Achado: o valor TG16) aparece 1 vez e não corresponde a nenhuma plataforma Nintendo válida (resíduo de parsing da fonte original). Tratamento: registro descartado na Silver, com a decisão documentada (não é seguro inferir a plataforma correta a partir de 1 registro).
 
 Registros com 'date' fora do padrão MMM d, yyyy: 30
-+--------+-----+
-|date    |count|
-+--------+-----+
-|TBA     |13   |
-|Canceled|11   |
-|TBA 2024|2    |
-|TBA 2011|2    |
-|TBA 2010|1    |
-|Q4 2015 |1    |
-+--------+-----+
+<img width="120" height="186" alt="image" src="https://github.com/user-attachments/assets/3a043713-1f6f-4d5a-b450-2259bdc54ce6" />
 
 Achado: 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados. Tratamento: criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.
 
 **Acurácia — faixas de valores esperadas**
-+--------------+--------------+
-|meta_score_min|meta_score_max|
-+--------------+--------------+
-|          37.0|          99.0|
-+--------------+--------------+
-
-+--------------+--------------+
-|user_score_min|user_score_max|
-+--------------+--------------+
-|           3.1|           9.6|
-+--------------+--------------+
+<img width="228" height="205" alt="image" src="https://github.com/user-attachments/assets/e155d716-b359-4564-8eeb-eadd88870aa4" />
 
 Achado: meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_score fica dentro de 0-10. Nenhum valor fora do domínio esperado foi encontrado — não foi necessário tratamento de acurácia nessas colunas.
 
