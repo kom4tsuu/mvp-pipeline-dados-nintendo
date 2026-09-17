@@ -100,10 +100,6 @@ construído a partir de `silver.jogos_limpos`. Linhagem completa: **Bronze** (`b
 cópia fiel do `NintendoGames.csv`) → **Silver** (`silver.jogos_limpos`, dados limpos e tipados) →
 **Gold** (tabelas abaixo).
 
----
-
-## Catálogo de Dados
-
 ## gold.fato_jogos
 Tabela fato. **Grão:** um lançamento (um jogo em uma plataforma específica).
 
