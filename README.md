@@ -191,12 +191,25 @@ Medalhão, para manter cada etapa isolada, legível e fácil de reexecutar:
 | [`04_qualidade_dados.py`](notebooks/04_qualidade_dados.py) | — | Análise de qualidade sobre o dado bruto, documentando achados e tratamentos |
 | [`05_analise.py`](notebooks/05_analise.py) | — | Consultas SQL sobre a Gold respondendo cada pergunta de negócio |
 
-Cada transformação relevante está documentada em células Markdown dentro do próprio notebook
-(o "o quê" e o "porquê"), conforme detalhado na seção de Qualidade de Dados abaixo.
-
-📸 **Screenshots a anexar aqui:** execução completa (todas as células rodadas com sucesso) de
-cada um dos 3 notebooks de pipeline, e o Catalog Explorer confirmando que as tabelas Bronze,
-Silver e Gold foram persistidas.
+### Transformações da camada Silver (`02_silver_transformacao.py`)
+ 
+| O que foi feito | Por que foi feito | Impacto nos dados |
+|---|---|---|
+| Removi duplicatas usando `dropDuplicates(["title","platform"])`, pois a chave natural de um lançamento é o par jogo+plataforma | Garantir que cada linha represente um lançamento único, evitando contar o mesmo jogo mais de uma vez em qualquer análise | 2 registros duplicados eliminados, sem perda de informação real |
+| Descartei o registro com `platform = "TG16)"` | Esse valor não corresponde a nenhuma plataforma Nintendo válida — é um resíduo de parsing da fonte original, e não é seguro inferir a plataforma correta a partir de 1 único registro | 1 registro removido; a coluna `platform` passa a conter apenas valores consistentes, permitindo agrupamentos confiáveis por plataforma |
+| Criei a coluna `release_status` (Lancado / A anunciar / Cancelado) a partir do texto em `date`, testando se o valor tem formato de data válido | A coluna original mistura datas reais com textos como `"TBA"`, `"Canceled"` e `"Q4 2015"` — sem separar isso, qualquer tentativa de converter `date` para tipo Data quebraria o pipeline ou descartaria jogos que ainda não foram lançados | Nenhum jogo é perdido: os 30 registros sem data completa continuam no catálogo, agora com status explícito, em vez de serem silenciosamente descartados |
+| Converti `date` para `release_date` (tipo Data), usando `try_to_date` apenas quando `release_status = "Lancado"` | Permitir cálculos temporais (ano, ordenação cronológica, filtros por período) que só fazem sentido sobre um tipo Data, não sobre texto livre | `release_date` fica `NULL` para jogos sem data confirmada, em vez de gerar erro de conversão ou um valor inventado |
+| Converti `meta_score` e `user_score` de texto para número (`DoubleType`) | Essas colunas vêm como texto na Bronze por princípio (camada Bronze não tipa dados); sem essa conversão não é possível calcular médias, comparações ou correlações | Nulos continuam como `NULL` (ausência real da nota), e os valores numéricos passam a poder ser usados em agregações estatísticas |
+| Transformei as colunas `genres` e `developers` (strings no formato `"['Action','Platformer']"`) em arrays reais do Spark, e extraí o primeiro item de `genres` como `primary_genre` | Um jogo pode ter mais de um gênero e mais de uma desenvolvedora; manter isso como texto impediria explodir essas listas em relações N:N na modelagem Gold | Cada jogo passa a ter um gênero primário para análises simples, e a lista completa de gêneros/desenvolvedoras fica disponível para as tabelas-ponte da camada Gold |
+| Padronizei valores nulos/vazios de `esrb_rating` para o rótulo `"Nao informado"` | Deixar explícito, em qualquer agrupamento ou relatório, que a ausência da classificação é um dado da fonte original, e não um erro do pipeline | Nenhuma linha some de agregações por `esrb_rating`; os 122 jogos sem classificação continuam visíveis nas análises |
+ 
+### Transformações da camada Gold (`03_gold_modelagem.py`)
+ 
+| O que foi feito | Por que foi feito | Impacto nos dados |
+|---|---|---|
+| Criei as dimensões `dim_plataforma`, `dim_genero`, `dim_classificacao_etaria` e `dim_data`, cada uma com uma chave surrogate própria | Um Esquema Estrela exige que atributos descritivos fiquem isolados em dimensões, em vez de repetidos em toda linha da fato — isso reduz redundância e centraliza a descrição de cada atributo (ex.: descrição por extenso de cada sigla ESRB) | As consultas de análise (notebook 05) passam a fazer `JOIN` simples entre fato e dimensão em vez de repetir texto bruto em cada linha |
+| Fiz o `JOIN` entre `silver.jogos_limpos` e as quatro dimensões acima pelos respectivos nomes/valores, para montar a `fato_jogos` com as chaves substituindo os textos originais | Enriquecer cada linha de fato com as chaves corretas de cada dimensão, seguindo o padrão de Esquema Estrela — o mesmo princípio do exemplo do enunciado (JOIN de vendas com produtos por `product_id`), aqui aplicado a jogo × plataforma/gênero/classificação/data | A tabela fato fica compacta (só chaves + métricas), enquanto o significado de cada atributo mora nas dimensões, facilitando manutenção e consultas |
+| Explodi (`explode`) os arrays `genres_array` e `developers_array` para criar as tabelas-ponte `ponte_jogo_genero` e `ponte_jogo_desenvolvedora`, junto com a nova dimensão `dim_desenvolvedora` | Um jogo pode ter vários gêneros e vários estúdios envolvidos — uma relação N:N não cabe como coluna única na tabela fato sem duplicar linhas | Passa a ser possível responder perguntas que consideram todos os gêneros/desenvolvedoras de um jogo (não só o primário), sem distorcer a contagem de jogos na fato |
 
 ---
 
