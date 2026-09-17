@@ -81,7 +81,7 @@ cenário real, com múltiplas cargas ao longo do tempo, essas colunas permitem r
 
 Por fim, o DataFrame é gravado como tabela Delta (`bronze.jogos_raw`) dentro do Unity Catalog. Usar o formato Delta em vez de simplesmente manter o CSV como arquivo é o que transforma o armazenamento bruto em Lakehouse de verdade: passa a existir controle transacional, histórico de versões (time travel) e a possibilidade de consultar o dado com SQL diretamente, preparando o terreno para as transformações da camada Silver.
 
-Tabela Delta (Bronze)
+Tabela Delta (Bronze):
 
 |meta_score|title|platform|date|user_score|link|esrb_rating|developers|genres|_ingestion_timestamp|_source_file|_source_origin|
 |---|---|---|---|---|---|---|---|---|---|---|---|
