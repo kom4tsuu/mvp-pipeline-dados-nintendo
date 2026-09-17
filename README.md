@@ -324,10 +324,4 @@ Fiquei bastante satisfeito com o resultado final, principalmente por ter trabalh
     └── 05_analise.py
 ```
 
-## Como reproduzir
-1. Crie uma conta no [Databricks Free Edition](https://www.databricks.com/) e um workspace.
-2. Faça upload de `NintendoGames.csv` para um Volume do Unity Catalog em `bronze/raw_files/`.
-3. Importe os 5 arquivos de `notebooks/` no Databricks (Workspace → Import → formato "Source
-   File" — os arquivos já seguem o formato de notebook Databricks, com `# Databricks notebook
-   source` e `# COMMAND ----------`).
-4. Execute em ordem: `01` → `02` → `03` → `04` → `05`.
+
