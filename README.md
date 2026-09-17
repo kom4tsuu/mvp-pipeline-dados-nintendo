@@ -208,13 +208,36 @@ Consultas completas em [`notebooks/05_analise.py`](notebooks/05_analise.py). Res
 |2022|17|78.33|
 |2023|26|81|
 
-**5. Desenvolvedoras (excl. Nintendo, ≥8 jogos):** Retro Studios lidera (89,4), seguida de
-Monolith Soft e Rare Ltd. (83,7 cada). Intelligent Systems tem o maior volume entre terceiros
-com nota consistentemente alta (99 jogos, média 80,8).
+**5. Quais desenvolvedoras (fora a própria Nintendo) produzem os jogos mais bem avaliados?** Retro Studios lidera com média 89,4 (10 jogos — inclui a série Metroid Prime), seguida por Monolith Soft (83,7) e Rare Ltd. (83,7). Intelligent Systems (desenvolvedora de Fire Emblem/Advance Wars) tem o maior volume entre terceiros com nota alta (99 jogos, média 80,8). Isso mostra que estúdios parceiros de longa data da Nintendo entregam qualidade consistente, às vezes superior à média dos jogos com selo "Nintendo" no desenvolvimento.
 
-**6. Influência da classificação ESRB:** diferença pequena entre categorias (75,7 a 79,5) — não é
-um fator determinante de qualidade.
+|nome_desenvolvedora|qtd_jogos|media_meta_score|
+|---|---|---|
+|Retro Studios|10|89.44|
+|Monolith Soft|16|83.67|
+|Rare Ltd.|15|83.67|
+|PlatinumGames|12|83.2|
+|Alphadream Corporation|8|83.13|
+|GREZZO|8|82.29|
+|Intelligent Systems|99|80.77|
+|TOSE|8|80|
+|Game Freak|47|79.97|
+|Square Enix|10|79.22|
+|Next Level Games|11|78.57|
+|Nintendo Software Technology|12|77.75|
+|Camelot Software Planning|18|77.56|
+|Good-Feel|8|76.71|
+|Bandai Namco Games|12|76.11|
 
+**6. A classificação etária (ESRB) influencia a nota média dos jogos?** jogos classificados T (Adolescentes) têm a maior média (79,5), seguidos por M (Maduro, 78,6 — mas apenas 15 jogos), E10+ (76,3) e E (Livre, 75,7 — a maior categoria, com 660 jogos). A diferença entre categorias é pequena (75,7 a 79,5 pontos), então classificação etária não é um fator determinante de qualidade — jogos "E" (a maioria do catálogo Nintendo) têm nota só um pouco abaixo dos "T", sem uma tendência forte.
+
+|sigla_esrb|descricao|qtd_jogos|media_meta_score|media_user_score|
+|---|---|---|---|---|
+|T|Adolescentes (13+)|150|79.49|8.07|
+|M|Maduro (17+)|15|78.57|8.08|
+|E10+|Livre para maiores de 10 anos|142|76.31|7.76|
+|E|Livre para todos|657|75.67|7.63|
+|Nao informado|Nao informado pela fonte|122|71.29|7.17|
+|RP|Classificacao pendente|5|null|8|
 
 ---
 
