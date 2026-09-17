@@ -115,23 +115,85 @@ Resumo:
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
 | Outliers | Nenhum outlier relevante em `meta_score` pela regra do IQR | Não foi necessário tratamento |
 
-**Evidências:**
 
 **Completude — valores nulos/vazios por coluna**
-<img width="1288" height="488" alt="image" src="https://github.com/user-attachments/assets/37e53145-a811-4865-abd4-c91f11bd8fdf" />
+
+|meta_score|user_score|esrb_rating|developers|title|platform|date|genres|
+|---|---|---|---|---|---|---|---|
+|385|238|122|3|0|0|0|0|
+
+Achados (calculados sobre os 1094 registros):
+
+meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic.
+user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários.
+esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte.
+developers: 3 nulos.
+title, platform, date, genres: sem nulos.
+Tratamento: nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.
 
 **Unicidade — duplicatas**
-<img width="1176" height="292" alt="image" src="https://github.com/user-attachments/assets/0ea23ec6-c88b-4057-bd2b-8d49b49ebab5" />
+
+|title|platform|count|
+|---|---|---|
+|Art Academy: Lessons for Everyone|3DS|2|
+|Fluidity|WII|2|
+
+Achado: 2 pares duplicados de title+platform. Tratamento: removidos via dropDuplicates(["title","platform"]) na Silver, mantendo a primeira ocorrência.
 
 **Consistência — formato de platform e date**
-<img width="1331" height="408" alt="image" src="https://github.com/user-attachments/assets/1754ae43-ea97-4e82-b72a-fd22597ba42b" />
+
+Valores distintos de platform:
++--------+-----+
+|platform|count|
++--------+-----+
+|3DS     |259  |
+|Switch  |209  |
+|DS      |196  |
+|WII     |188  |
+|WIIU    |80   |
+|GBA     |64   |
+|GC      |52   |
+|N64     |31   |
+|iOS     |14   |
+|TG16)   |1    |
++--------+-----+
+
+Achado: o valor TG16) aparece 1 vez e não corresponde a nenhuma plataforma Nintendo válida (resíduo de parsing da fonte original). Tratamento: registro descartado na Silver, com a decisão documentada (não é seguro inferir a plataforma correta a partir de 1 registro).
+
+Registros com 'date' fora do padrão MMM d, yyyy: 30
++--------+-----+
+|date    |count|
++--------+-----+
+|TBA     |13   |
+|Canceled|11   |
+|TBA 2024|2    |
+|TBA 2011|2    |
+|TBA 2010|1    |
+|Q4 2015 |1    |
++--------+-----+
+
+Achado: 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados. Tratamento: criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.
 
 **Acurácia — faixas de valores esperadas**
-<img width="1311" height="329" alt="image" src="https://github.com/user-attachments/assets/0f6b6f6e-9893-43dc-9025-758004181982" />
++--------------+--------------+
+|meta_score_min|meta_score_max|
++--------------+--------------+
+|          37.0|          99.0|
++--------------+--------------+
+
++--------------+--------------+
+|user_score_min|user_score_max|
++--------------+--------------+
+|           3.1|           9.6|
++--------------+--------------+
+
+Achado: meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_score fica dentro de 0-10. Nenhum valor fora do domínio esperado foi encontrado — não foi necessário tratamento de acurácia nessas colunas.
 
 **Outliers**
-<img width="1303" height="127" alt="image" src="https://github.com/user-attachments/assets/02ae836f-b848-4ea4-be40-51c494fb64de" />
 
+Limites IQR para meta_score: [48.0, 104.0] | Outliers encontrados: 9
+
+Achado: aplicando a regra do IQR (1,5x) sobre meta_score, não há outliers relevantes — a distribuição de notas de crítica é razoavelmente concentrada (mediana ~77, desvio padrão ~10,6). Isso é esperado: o Metacritic já agrega várias avaliações antes de publicar a nota, o que naturalmente suaviza extremos.
 
 ---
 
