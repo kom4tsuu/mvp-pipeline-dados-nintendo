@@ -219,8 +219,6 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 |---|---|---|---|---|---|---|---|
 |385|238|122|3|0|0|0|0|
 
----
-
 **Achados (calculados sobre os 1094 registros):**
 
 meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic.
@@ -229,8 +227,6 @@ esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada 
 developers: 3 nulos.
 title, platform, date, genres: sem nulos.
 Tratamento: nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.
-
----
 
 **Unicidade — duplicatas**
 
@@ -241,21 +237,15 @@ Tratamento: nulos em meta_score/user_score foram mantidos como NULL (ausência r
 
 Achado: 2 pares duplicados de title+platform. Tratamento: removidos via dropDuplicates(["title","platform"]) na Silver, mantendo a primeira ocorrência.
 
----
-
 **Consistência — formato de platform e date**
 
 <img width="218" height="282" alt="image" src="https://github.com/user-attachments/assets/550a8277-94dc-4fca-9b44-c0ebc8b72428" />
 
 Achado: o valor TG16) aparece 1 vez e não corresponde a nenhuma plataforma Nintendo válida (resíduo de parsing da fonte original). Tratamento: registro descartado na Silver, com a decisão documentada (não é seguro inferir a plataforma correta a partir de 1 registro).
 
----
-
 <img width="373" height="208" alt="image" src="https://github.com/user-attachments/assets/427b9b50-bb43-4fcc-bd78-55fbba0cf791" />
 
 Achado: 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados. Tratamento: criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.
-
----
 
 **Acurácia — faixas de valores esperadas**
 
@@ -263,15 +253,11 @@ Achado: 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011
 
 Achado: meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_score fica dentro de 0-10. Nenhum valor fora do domínio esperado foi encontrado — não foi necessário tratamento de acurácia nessas colunas.
 
----
-
 **Outliers**
 
 Limites IQR para meta_score: [48.0, 104.0] | Outliers encontrados: 9
 
 Achado: aplicando a regra do IQR (1,5x) sobre meta_score, não há outliers relevantes — a distribuição de notas de crítica é razoavelmente concentrada (mediana ~77, desvio padrão ~10,6). Isso é esperado: o Metacritic já agrega várias avaliações antes de publicar a nota, o que naturalmente suaviza extremos.
-
----
 
 ## 6. Análise de Dados (Etapa 4.5)
 
