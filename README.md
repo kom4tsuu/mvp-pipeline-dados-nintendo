@@ -118,10 +118,19 @@ Resumo:
 **Evidências:**
 
 **Completude — valores nulos/vazios por coluna**
-<img width="1289" height="246" alt="image" src="https://github.com/user-attachments/assets/a0ac854a-cbcd-44be-bd03-af0dee6f154b" />
+<img width="1288" height="488" alt="image" src="https://github.com/user-attachments/assets/37e53145-a811-4865-abd4-c91f11bd8fdf" />
 
 **Unicidade — duplicatas**
-<img width="1154" height="39" alt="image" src="https://github.com/user-attachments/assets/87ddb8e2-ab0c-4f8d-afee-9e08a3919321" />
+<img width="1176" height="292" alt="image" src="https://github.com/user-attachments/assets/0ea23ec6-c88b-4057-bd2b-8d49b49ebab5" />
+
+**Consistência — formato de platform e date**
+<img width="1331" height="408" alt="image" src="https://github.com/user-attachments/assets/1754ae43-ea97-4e82-b72a-fd22597ba42b" />
+
+**Acurácia — faixas de valores esperadas**
+<img width="1311" height="329" alt="image" src="https://github.com/user-attachments/assets/0f6b6f6e-9893-43dc-9025-758004181982" />
+
+**Outliers**
+<img width="1303" height="127" alt="image" src="https://github.com/user-attachments/assets/02ae836f-b848-4ea4-be40-51c494fb64de" />
 
 
 ---
