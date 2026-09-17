@@ -154,9 +154,6 @@ print("Tabelas-ponte e dim_desenvolvedora criadas com sucesso.")
 
 # MAGIC %md
 # MAGIC ## 7. Evidência para o README
-# MAGIC Tire screenshot da aba **Catalog → nintendo_games → gold** mostrando todas as tabelas
-# MAGIC (fato_jogos, dim_plataforma, dim_genero, dim_classificacao_etaria, dim_data,
-# MAGIC dim_desenvolvedora, ponte_jogo_genero, ponte_jogo_desenvolvedora) persistidas.
 
 # COMMAND ----------
 
