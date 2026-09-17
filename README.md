@@ -140,8 +140,9 @@ Resumo:
 Consultas completas em [`notebooks/05_analise.py`](notebooks/05_analise.py). Respostas
 (validadas sobre o dataset completo):
 
-**1. Plataforma com melhor nota média de crítica:** N64 (83,97), seguido de GBA (79,0), Switch
-(78,0) e GameCube (77,9). 3DS e WII, os catálogos maiores, ficam nas posições mais baixas (~73,5).
+**1. Qual plataforma Nintendo possui, em média, os jogos mais bem avaliados pela crítica?** o N64 lidera com nota média de crítica 83,97 (31 jogos), seguido por GBA (79,0), Switch (78,0) e GameCube (77,9). As plataformas mais recentes e com catálogo maior — 3DS (73,5) e WII (73,5) — ficam nas posições mais baixas. Isso sugere que catálogos menores e mais curados (N64, GBA, GC) tendem a ter nota média mais alta do que catálogos grandes com jogos de nicho ou menor orçamento (3DS, WII, com centenas de títulos). iOS tem a pior média (67,4), mas com base pequena (14 jogos).
+
+<img width="684" height="256" alt="image" src="https://github.com/user-attachments/assets/492c8d51-78cd-418e-833a-82503757fa32" />
 
 **2. Correlação crítica x usuários:** 0,625 (moderada a forte, positiva, n=690) — concordância
 geral, mas com espaço real de divergência entre os dois públicos.
@@ -159,8 +160,8 @@ com nota consistentemente alta (99 jogos, média 80,8).
 
 **6. Influência da classificação ESRB:** diferença pequena entre categorias (75,7 a 79,5) — não é
 um fator determinante de qualidade.
+![Uploading image.png…]()
 
-📸 **Screenshots a anexar aqui:** resultado de cada uma das 6 queries do notebook de análise.
 
 ---
 
