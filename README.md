@@ -302,17 +302,11 @@ O padrão que se repete nas seis respostas é o mesmo: volume e nota média cami
 
 ## 7. Autoavaliação
 
-*(Escreva esta seção em primeira pessoa após executar o trabalho de fato no Databricks — o
-enunciado exige uma reflexão pessoal sobre o processo, que não pode ser preenchida por terceiros.
-Sugestão de estrutura abaixo.)*
+Desenvolver este MVP foi uma experiência enriquecedora e, ao mesmo tempo, bastante desafiadora. Consegui atingir os objetivos que tracei no início do trabalho: construí o pipeline de ponta a ponta, passando pelas cinco etapas propostas (definição do objetivo, coleta, modelagem, carga/ETL e análise), e cheguei ao final com as seis perguntas de negócio respondidas com dados reais extraídos do próprio pipeline. Mais do que isso, senti que consegui aplicar na prática boa parte dos conceitos vistos em aula — Arquitetura Medalhão, Lakehouse, Esquema Estrela, ETL — que até então eram só teoria para mim.
 
-- **Objetivos atingidos:** o pipeline cobriu as 5 etapas propostas (objetivo → coleta →
-  modelagem → carga/ETL → análise) e respondeu às 6 perguntas de negócio definidas no início.
-- **Dificuldades encontradas:** *(descreva o que de fato deu trabalho ao rodar no seu ambiente —
-  ex.: configuração do Unity Catalog, parsing das colunas `genres`/`developers`, etc.)*
-- **Trabalhos futuros:** possíveis extensões incluem cruzar este dataset com dados de vendas por
-  título (ex.: VGChartz) para relacionar nota crítica com desempenho comercial, ou usar todos os
-  gêneros (não só o primário) numa análise multi-rótulo mais completa via `ponte_jogo_genero`.
+A maior dificuldade não foi entender os conceitos, mas lidar com problemas reais de dados durante a implementação, que é exatamente o tipo de imprevisto que o enunciado avisa que vai acontecer no dia a dia de um Engenheiro de Dados. Tive três erros na camada Silver e na camada de Qualidade de Dados que me obrigaram a rever minhas transformações: um valor de data fora do padrão esperado ("Q4 2015") que quebrou a conversão de datas porque minha lógica inicial só previa os casos "TBA" e "Canceled"; uma célula de notebook mal separada, misturando código Python com texto explicativo, que gerava erro de sintaxe; e uma tentativa de calcular estatísticas (quartis, outliers) diretamente sobre uma coluna que a camada Bronze mantém propositalmente como texto, sem conversão numérica. Resolver cada um desses problemas me fez entender na prática por que a documentação e o tratamento de exceções são tão importantes num pipeline de dados — no fim das contas, quase nenhum dataset do mundo real vem "limpo" como a gente espera.
+
+Fiquei bastante satisfeito com o resultado final, principalmente por ter trabalhado com um tema que gosto de verdade, jogos eletrônicos. Isso deixou o processo de formular as perguntas de negócio e interpretar os resultados muito mais natural, porque eu já tinha familiaridade com o contexto (plataformas, desenvolvedoras, gêneros) e conseguia perceber quando um resultado fazia sentido ou merecia um olhar mais atento.
 
 ---
 
