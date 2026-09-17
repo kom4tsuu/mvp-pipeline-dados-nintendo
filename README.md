@@ -62,6 +62,8 @@ O `NintendoGames.csv` foi enviado para um **Volume do Unity Catalog**
 tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com metadados de
 controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para rastreabilidade.
 
+A seguir são descritas as etapas para efetuar a carga dos dados:
+
 **Etapa 1 - Configuração do catálogo e schemas**
 
 **Etapa 2 - Leitura do CSV bruto**
