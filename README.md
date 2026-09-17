@@ -261,8 +261,9 @@ Achado: aplicando a regra do IQR (1,5x) sobre meta_score, não há outliers rele
 
 ## 6. Análise de Dados (Etapa 4.5)
 
-Consultas completas em [`notebooks/05_analise.py`](notebooks/05_analise.py). Respostas
-(validadas sobre o dataset completo):
+Consultas completas com aplicação de consultas SQL, scripts Python e/ou visualizações para análise técnica podem ser encontradas em [`notebooks/05_analise.py`](notebooks/05_analise.py). 
+
+As seguir são apresentadas as respostas (validadas sobre o dataset completo) para as perguntas de negócios realizadas no início deste trabalho:
 
 **1. Qual plataforma Nintendo possui, em média, os jogos mais bem avaliados pela crítica?**
 
