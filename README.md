@@ -485,6 +485,8 @@ A maior dificuldade não foi entender os conceitos, mas lidar com problemas reai
 
 Fiquei bastante satisfeito com o resultado final, pois atingi os objetivos traçados no início de trabalho, conseguindo responder todas as seis perguntas de negócios, mas principalmente por ter trabalhado com um tema que gosto de verdade, jogos eletrônicos. Isso deixou o processo de formular as perguntas de negócio e interpretar os resultados muito mais natural, porque eu já tinha familiaridade com o contexto (plataformas, desenvolvedoras, gêneros) e conseguia perceber quando um resultado fazia sentido ou merecia um olhar mais atento.
 
+Como trabalhos futuros, pretendo explorar duas extensões deste MVP: cruzar este dataset com dados de vendas por título (por exemplo, do VGChartz) para relacionar nota da crítica com desempenho comercial, e não apenas com a recepção qualitativa; e aproveitar as tabelas-ponte que já construí (`ponte_jogo_genero`) para fazer uma análise multi-rótulo considerando todos os gêneros de cada jogo, e não apenas o gênero primário usado nesta versão do trabalho. Também vejo espaço para automatizar a ingestão (hoje manual, via upload de CSV) caso o dataset volte a ser atualizado pela fonte original.
+
 ---
 
 ## Estrutura do repositório
