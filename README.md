@@ -207,8 +207,29 @@ fontes externas ao arquivo original.
 
 ## 4. Pipeline de Dados (Etapa 4.4)
 
-O pipeline foi ramificado em **três notebooks sequenciais**, um por camada da Arquitetura
-Medalhão, para manter cada etapa isolada, legível e fácil de reexecutar:
+### Como o pipeline foi organizado
+ 
+O pipeline **não foi feito em um único notebook** — ele foi ramificado em **três notebooks
+sequenciais**, um para cada camada da Arquitetura Medalhão (Bronze, Silver, Gold), mais dois
+notebooks auxiliares (qualidade de dados e análise final). A decisão de ramificar, em vez de
+concentrar tudo em um só notebook, foi tomada por três motivos práticos:
+ 
+1. **Isolamento de responsabilidade.** Cada notebook tem um único propósito bem definido — o
+   Bronze só ingere, o Silver só limpa e tipa, o Gold só modela — o que torna mais fácil entender
+   o que cada etapa faz sem precisar ler o pipeline inteiro de uma vez.
+2. **Reexecução independente.** Se eu precisar reprocessar só a modelagem Gold (por exemplo, para
+   adicionar uma nova dimensão), não preciso rodar a ingestão e a limpeza de novo — basta reexecutar
+   o notebook `03_gold_modelagem.py`, já que ele lê diretamente da tabela `silver.jogos_limpos`
+   persistida.
+3. **Rastreamento de erros.** Ao longo do desenvolvimento, essa separação foi o que permitiu
+   isolar rapidamente em qual camada um problema estava ocorrendo (por exemplo, um erro de
+   conversão de data que só acontecia na Silver, ou um erro de tipo que só aparecia no notebook de
+   qualidade) — sem essa ramificação, depurar o pipeline inteiro de uma vez seria bem mais
+   trabalhoso.
+   
+Cada notebook lê a tabela Delta persistida pelo notebook anterior (o Silver lê `bronze.jogos_raw`;
+o Gold lê `silver.jogos_limpos`), formando uma cadeia onde a saída de uma camada é sempre a
+entrada da próxima — e não uma sequência de células soltas dentro de um mesmo arquivo.
 
 | Notebook | Camada | O que faz |
 |---|---|---|
@@ -217,6 +238,10 @@ Medalhão, para manter cada etapa isolada, legível e fácil de reexecutar:
 | [`03_gold_modelagem.py`](notebooks/03_gold_modelagem.py) | Gold | Constrói o Esquema Estrela (fato + dimensões + pontes) |
 | [`04_qualidade_dados.py`](notebooks/04_qualidade_dados.py) | — | Análise de qualidade sobre o dado bruto, documentando achados e tratamentos |
 | [`05_analise.py`](notebooks/05_analise.py) | — | Consultas SQL sobre a Gold respondendo cada pergunta de negócio |
+
+Os cinco notebooks estão disponíveis na íntegra no repositório GitHub, na pasta
+[`notebooks/`](notebooks/), em formato de código-fonte do Databricks (podem ser reimportados
+diretamente na plataforma).
 
 ### Transformações da camada Silver (`02_silver_transformacao.py`)
  
