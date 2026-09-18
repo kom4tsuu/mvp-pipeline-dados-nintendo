@@ -206,6 +206,8 @@ Tabela-ponte (relação N:N — um jogo pode ter mais de uma desenvolvedora envo
 | jogo_id | bigint | FK para `fato_jogos` |
 | desenvolvedora_id | int | FK para `dim_desenvolvedora` |
 
+<img width="315" height="706" alt="image" src="https://github.com/user-attachments/assets/66f27783-23c6-4c9e-8fea-732f3fc46731" />
+
 ## Linhagem resumida (todas as tabelas)
 Todas as tabelas Gold derivam de `silver.jogos_limpos`, que por sua vez deriva de
 `bronze.jogos_raw` (cópia 1:1 do `NintendoGames.csv`, fonte: dataset
