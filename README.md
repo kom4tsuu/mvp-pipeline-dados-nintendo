@@ -12,6 +12,33 @@
 
 ## 1. Contexto de Negócio e Perguntas (Etapa 2 e 4.1)
 
+### Objetivo do trabalho
+
+A Nintendo é uma das empresas mais longevas e influentes da indústria de jogos eletrônicos,
+com um catálogo que atravessa quase três décadas e múltiplas gerações de consoles — do Nintendo
+64, passando por GameCube, Wii, 3DS e Wii U, até o Switch. Diferente de concorrentes cuja
+estratégia gira em torno de poucas franquias de grande orçamento, a Nintendo sustenta um modelo de
+negócio baseado em um catálogo extenso e diverso: jogos próprios (first-party), parcerias de longa
+data com estúdios como Intelligent Systems e Retro Studios, e presença em múltiplas plataformas
+com propostas de público muito diferentes entre si (desde jogos "livres para todos" até títulos
+voltados a públicos mais específicos).
+ 
+Entender o que influencia a recepção crítica e do público nesse catálogo tem valor prático real:
+ajuda a identificar se certas plataformas, gêneros ou parceiros de desenvolvimento entregam
+qualidade mais consistente que outros, se o crescimento do volume de lançamentos ao longo dos anos
+veio acompanhado de queda ou manutenção da qualidade percebida, e até que ponto a nota da crítica
+especializada reflete a opinião de quem realmente joga. São perguntas que, em um contexto real de
+publisher ou estúdio, apoiariam decisões como onde concentrar investimento de desenvolvimento, quais
+parcerias priorizar, ou como calibrar expectativas de qualidade para um público específico —
+exatamente o tipo de necessidade de negócio que motiva um pipeline de dados como o construído
+neste MVP.
+ 
+Este trabalho tem como objetivo construir um pipeline de dados de ponta a ponta na nuvem —
+passando por coleta, modelagem, carga (ETL) e análise — capaz de transformar o histórico bruto de
+lançamentos da Nintendo em respostas concretas para um conjunto de perguntas de negócio definidas
+a seguir, evidenciando na prática o raciocínio completo de um Engenheiro de Dados diante de um
+problema real.
+
 ### Contexto
 O dataset reúne **1.094 lançamentos** de jogos da Nintendo (e jogos third-party publicados/
 desenvolvidos para plataformas Nintendo), cobrindo o período de **1996 a 2023**, com dados de
