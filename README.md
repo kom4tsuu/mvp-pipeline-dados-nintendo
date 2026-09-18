@@ -254,6 +254,9 @@ diretamente na plataforma).
 | Converti `meta_score` e `user_score` de texto para número (`DoubleType`) | Essas colunas vêm como texto na Bronze por princípio (camada Bronze não tipa dados); sem essa conversão não é possível calcular médias, comparações ou correlações | Nulos continuam como `NULL` (ausência real da nota), e os valores numéricos passam a poder ser usados em agregações estatísticas |
 | Transformei as colunas `genres` e `developers` (strings no formato `"['Action','Platformer']"`) em arrays reais do Spark, e extraí o primeiro item de `genres` como `primary_genre` | Um jogo pode ter mais de um gênero e mais de uma desenvolvedora; manter isso como texto impediria explodir essas listas em relações N:N na modelagem Gold | Cada jogo passa a ter um gênero primário para análises simples, e a lista completa de gêneros/desenvolvedoras fica disponível para as tabelas-ponte da camada Gold |
 | Padronizei valores nulos/vazios de `esrb_rating` para o rótulo `"Nao informado"` | Deixar explícito, em qualquer agrupamento ou relatório, que a ausência da classificação é um dado da fonte original, e não um erro do pipeline | Nenhuma linha some de agregações por `esrb_rating`; os 122 jogos sem classificação continuam visíveis nas análises |
+
+<img width="1364" height="560" alt="image" src="https://github.com/user-attachments/assets/8f1f3e41-fa1c-4ba1-a335-47a92f9d5b70" />
+<img width="1350" height="372" alt="image" src="https://github.com/user-attachments/assets/c93b7b2a-afe8-4b37-9926-bacb128875a4" />
  
 ### Transformações da camada Gold (`03_gold_modelagem.py`)
  
