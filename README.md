@@ -61,9 +61,16 @@ etária ESRB, desenvolvedora(s) e gênero(s).
 | `genres` | Lista de gêneros/subgêneros |
 
 ### Licença dos dados
-O arquivo corresponde ao dataset **"Nintendo Games"**, obtido via scraping do site
-metacritic.com e distribuído publicamente (ex.: Kaggle), sob **licença CC0: Public Domain** —
-uso, modificação e redistribuição livres, sem necessidade de atribuição.
+O arquivo corresponde ao dataset **["Nintendo Games"](https://www.kaggle.com/datasets/joebeachcapital/nintendo-games)**,
+publicado no Kaggle pelo usuário `joebeachcapital`, contendo todos os jogos da Nintendo para
+todas as plataformas, coletados via scraping do site metacritic.com. A licença informada na
+página do dataset é a **[Database Contents License (DbCL) v1.0](https://opendatacommons.org/licenses/dbcl/1-0/)**,
+da Open Data Commons: ela concede uma licença de copyright mundial, gratuita, não-exclusiva,
+perpétua e irrevogável sobre o conteúdo da base — incluindo uso comercial, modificação e
+redistribuição —, desde que respeitadas as condições da Open Database License (ODbL) que cobre a
+base de dados como um todo (o que, na prática, pode incluir exigência de atribuição à fonte
+original). Por esse motivo, a fonte do dataset é citada explicitamente ao longo deste documento,
+em vez de tratada como dado de domínio público sem restrições.
 
 ### Problema
 **Quais fatores (plataforma, gênero, desenvolvedora, classificação etária, ano de lançamento)
@@ -199,9 +206,10 @@ Tabela-ponte (relação N:N — um jogo pode ter mais de uma desenvolvedora envo
 
 ## Linhagem resumida (todas as tabelas)
 Todas as tabelas Gold derivam de `silver.jogos_limpos`, que por sua vez deriva de
-`bronze.jogos_raw` (cópia 1:1 do `NintendoGames.csv`, fonte: dataset "Nintendo Games" —
-dados de metacritic.com, licença CC0: Public Domain). Nenhuma tabela Gold recebe dados de
-fontes externas ao arquivo original.
+`bronze.jogos_raw` (cópia 1:1 do `NintendoGames.csv`, fonte: dataset
+["Nintendo Games"](https://www.kaggle.com/datasets/joebeachcapital/nintendo-games) no Kaggle —
+dados de metacritic.com, licença [Database Contents License (DbCL) v1.0](https://opendatacommons.org/licenses/dbcl/1-0/)).
+Nenhuma tabela Gold recebe dados de fontes externas ao arquivo original.
 
 ---
 
