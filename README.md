@@ -242,6 +242,25 @@ Medalhão, para manter cada etapa isolada, legível e fácil de reexecutar:
 
 ## 5. Qualidade de Dados (Etapa 4.5)
 
+A etapa de qualidade de dados existe porque nenhuma decisão de negócio pode ser mais confiável do
+que os dados que a sustentam: se uma média de nota estiver distorcida por um valor inconsistente,
+ou se uma data mal formatada quebrar uma agregação por ano, toda conclusão tirada a partir dali
+carrega esse erro adiante — inclusive nas seis perguntas de negócio que este trabalho se propõe a
+responder (Seção 1). É por isso que a qualidade de dados não fica isolada como uma checagem
+pontual, e sim serve de ponte entre a Bronze (dado bruto, cru) e a Silver (dado confiável): é aqui
+que decisões de tratamento são tomadas de forma consciente e documentada, em vez de deixadas para
+serem descobertas (ou pior, não descobertas) durante a análise final.
+ 
+Esse cuidado se mostrou especialmente relevante neste MVP porque o dataset cobre **27 anos de
+lançamentos** (1996-2023), coletados de forma heterogênea ao longo do tempo — o que naturalmente
+gera inconsistências: valores de data em formatos diferentes para jogos "a anunciar" ou
+cancelados, uma plataforma registrada de forma inválida, notas ausentes para títulos mais antigos
+ou de nicho. Sem uma etapa dedicada a identificar e tratar esses problemas antes da modelagem
+Gold, análises como "evolução da nota média por ano" (Pergunta 4) ou "nota média por plataforma"
+(Pergunta 1) correriam o risco de estar erradas sem que isso fosse perceptível à primeira vista —
+o tipo de erro silencioso mais perigoso em um pipeline de dados, porque não gera uma falha visível,
+apenas uma conclusão de negócio equivocada.
+
 Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_qualidade_dados.py).
 
 | Dimensão | Problema encontrado | Tratamento aplicado |
