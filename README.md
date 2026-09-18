@@ -364,112 +364,38 @@ As seguir são apresentadas as respostas (validadas sobre o dataset completo) pa
 
 O N64 tem a melhor nota média de crítica da história da Nintendo: 83,97 pontos, em um catálogo pequeno de 31 jogos. Logo atrás vêm Game Boy Advance (79,0), Switch (78,0) e GameCube (77,9). Já 3DS e Wii, os catálogos maiores (centenas de jogos cada), ficam com médias mais baixas, em torno de 73,5. O padrão se repete em outras perguntas: quanto maior e mais variado é o catálogo de uma plataforma, mais a média se aproxima de um valor intermediário. O iOS teve a pior média (67,4), mas com apenas 14 jogos — amostra pequena demais para uma conclusão definitiva.
 
-|nome_plataforma|qtd_jogos|media_meta_score|media_user_score|
-|---|---|---|---|
-|N64|31|83.97|8.31|
-|GBA|64|79|8.23|
-|Switch|209|78.01|7.4|
-|GC|52|77.9|8.21|
-|DS|196|76.05|7.67|
-|WIIU|80|74.98|7.7|
-|3DS|258|73.49|7.37|
-|WII|187|73.34|7.98|
-|iOS|14|67.42|5.82|
+<img width="683" height="574" alt="image" src="https://github.com/user-attachments/assets/c3c8f155-bd10-42f0-b174-5458c45b0206" />
 
 **2. Existe correlação entre a nota da crítica (`meta_score`) e a nota dos usuários (`user_score`)?**
 
 Na maior parte das vezes, sim, mas não sempre. Entre os 690 jogos que têm as duas notas, o nível de concordância entre crítica e usuários é de 0,625 em uma escala de 0 a 1 (quanto mais perto de 1, mais as duas notas andam juntas) — uma concordância forte, mas longe de ser total. Ou seja, um jogo bem avaliado pela crítica tem boas chances de agradar também os jogadores, mas existe um número relevante de exceções nos dois sentidos. As duas notas se complementam; nenhuma substitui a outra.
 
-|correlacao_meta_user|
-|---|
-|0.625559270411665|
+<img width="503" height="268" alt="image" src="https://github.com/user-attachments/assets/94ca3e5a-919f-42a6-b89d-07dcfb006b37" />
 
 **3. Quais gêneros de jogos concentram as maiores notas médias de crítica?**
 
 Entre os gêneros com pelo menos 15 jogos lançados (para não deixar um único sucesso distorcer a média), os melhor avaliados são Strategy (82,1 em 91 jogos) e Action Adventure (81,3 em 63 jogos). Os RPGs (Role-Playing) vêm na sequência, com 77,9 de média em 139 jogos — o maior catálogo entre os gêneros bem avaliados. No outro extremo, Adventure (68,9) tem a pior média entre os gêneros relevantes, e Miscellaneous (72,5) — a categoria mais volumosa do catálogo, com 234 jogos — também fica abaixo da média geral.
 
-|nome_genero|qtd_jogos|media_meta_score|
-|---|---|---|
-|Strategy|91|82.14|
-|Action Adventure|63|81.33|
-|Driving|38|78.68|
-|Role-Playing|139|77.91|
-|Action|329|76|
-|Simulation|39|74.94|
-|Puzzle|34|74.93|
-|Sports|67|72.68|
-|Miscellaneous|233|72.52|
-|Adventure|17|68.92|
+<img width="515" height="595" alt="image" src="https://github.com/user-attachments/assets/b1b4228a-90c1-4c2e-8a47-0ae0c0790240" />
 
 **4. Como evoluíram o número de lançamentos e a nota média de crítica ao longo dos anos?**
 
 Nos primeiros anos do dataset (1996 a 2002), a Nintendo lançava poucos jogos por ano, mas praticamente todos com nota acima de 80 pontos. A partir de meados dos anos 2000, o volume de lançamentos cresceu de forma acentuada — com picos em 2007 (86 jogos) e 2009 (90 jogos) —, e a nota média de crítica caiu e se estabilizou entre 73 e 78 pontos, patamar que se mantém até hoje. O dado não indica queda de qualidade da Nintendo como empresa; indica que, ao produzir mais jogos para públicos mais variados, a média do catálogo naturalmente se aproxima do centro — o mesmo efeito observado na Pergunta 1.
 
-|ano|qtd_lancamentos|media_meta_score|
-|---|---|---|
-|1996|3|88.67|
-|1997|5|89|
-|1998|4|85.25|
-|1999|4|81.5|
-|2000|11|82.64|
-|2001|14|84.93|
-|2002|16|81.5|
-|2003|25|81.28|
-|2004|37|76.09|
-|2005|39|75.92|
-|2006|52|74.6|
-|2007|85|74.57|
-|2008|38|73.04|
-|2009|90|74.7|
-|2010|67|75.33|
-|2011|42|73.82|
-|2012|48|72.77|
-|2013|70|73.97|
-|2014|43|76.24|
-|2015|41|70.45|
-|2016|54|76.97|
-|2017|73|76.36|
-|2018|49|75.94|
-|2019|43|77.73|
-|2020|38|75.38|
-|2021|27|75.11|
-|2022|17|78.33|
-|2023|26|81|
+<img width="485" height="693" alt="image" src="https://github.com/user-attachments/assets/0c733229-6b34-4ab7-9680-01fbfde0774a" />
+<img width="485" height="329" alt="image" src="https://github.com/user-attachments/assets/48ee513f-a443-48c9-9d05-d3ca6e0a7230" />
 
 **5. Quais desenvolvedoras (fora a própria Nintendo) produzem os jogos mais bem avaliados?**
 
 Excluindo a própria Nintendo, a Retro Studios lidera com média de 89,4 pontos (10 jogos, incluindo a série Metroid Prime). Em seguida, empatadas, Monolith Soft e Rare Ltd., ambas com 83,7. Destaque para a Intelligent Systems (Fire Emblem, Advance Wars): além de manter nota alta (80,8), é a desenvolvedora terceira com maior volume no catálogo — 99 jogos —, mostrando que consegue qualidade consistente mesmo em grande escala.
 
-|nome_desenvolvedora|qtd_jogos|media_meta_score|
-|---|---|---|
-|Retro Studios|10|89.44|
-|Monolith Soft|16|83.67|
-|Rare Ltd.|15|83.67|
-|PlatinumGames|12|83.2|
-|Alphadream Corporation|8|83.13|
-|GREZZO|8|82.29|
-|Intelligent Systems|99|80.77|
-|TOSE|8|80|
-|Game Freak|47|79.97|
-|Square Enix|10|79.22|
-|Next Level Games|11|78.57|
-|Nintendo Software Technology|12|77.75|
-|Camelot Software Planning|18|77.56|
-|Good-Feel|8|76.71|
-|Bandai Namco Games|12|76.11|
+<img width="541" height="776" alt="image" src="https://github.com/user-attachments/assets/0f152c9d-46c3-4a67-be7c-3bc524ea8a9f" />
 
 **6. A classificação etária (ESRB) influencia a nota média dos jogos?**
 
 Não. As notas médias por classificação etária ficam dentro de uma faixa estreita: jogos T (Adolescentes) têm a maior média (79,5), seguidos por M (Maduro, 78,6) — base pequena, só 15 jogos —, E10+ (76,3) e E (Livre para todos, 75,7). A categoria E, de longe a mais comum no catálogo (660 dos 1.094 jogos, ou 6 em cada 10 lançamentos), fica apenas cerca de 4 pontos abaixo da líder. Ou seja, a classificação etária não é um fator determinante de qualidade no catálogo Nintendo.
 
-|sigla_esrb|descricao|qtd_jogos|media_meta_score|media_user_score|
-|---|---|---|---|---|
-|T|Adolescentes (13+)|150|79.49|8.07|
-|M|Maduro (17+)|15|78.57|8.08|
-|E10+|Livre para maiores de 10 anos|142|76.31|7.76|
-|E|Livre para todos|657|75.67|7.63|
-|Nao informado|Nao informado pela fonte|122|71.29|7.17|
-|RP|Classificacao pendente|5|null|8|
+<img width="818" height="493" alt="image" src="https://github.com/user-attachments/assets/fc30381d-8111-4269-b309-f3ad2c6e4b57" />
 
 **Conclusão geral**
 
