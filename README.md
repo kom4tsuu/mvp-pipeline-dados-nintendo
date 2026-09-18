@@ -131,8 +131,11 @@ de dimensões (`dim_plataforma`, `dim_genero`, `dim_classificacao_etaria`, `dim_
 para as relações N:N — um jogo pode ter mais de um gênero e mais de uma desenvolvedora, o que não
 caberia em uma dimensão tradicional sem duplicar linhas na fato.
 
+<p align="center">
 <img width="315" height="706" alt="image" src="https://github.com/user-attachments/assets/66f27783-23c6-4c9e-8fea-732f3fc46731" />
-*Tabelas da camada Gold (fato + dimensões + tabelas-ponte) persistidas no Unity Catalog, compondo o Esquema Estrela do modelo dimensional.*
+ <br>
+  <sub><i>Tabelas da camada Gold (fato + dimensões + tabelas-ponte) persistidas no Unity Catalog, compondo o Esquema Estrela do modelo dimensional.</i></sub>
+</p>
 
 O catálogo de dados completo (toda tabela e coluna, tipo, domínio de valores e linhagem) também se encontra em
 [`catalogo_dados.md`](catalogo_dados.md). A construção do modelo está no notebook
