@@ -318,7 +318,7 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 | Consistência | 1 valor de plataforma inválido (`TG16)`); 30 datas fora do padrão (`TBA`, `Canceled`, etc.) | Registro de plataforma inválida descartado; coluna `release_status` criada para separar situação de lançamento da data em si |
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
 | Outliers | 9 outliers identificados em `meta_score` pela regra do IQR (limite inferior 48 pontos) | Mantidos sem alteração: são notas baixas genuínas, dentro da escala válida (0-100), não erros de coleta |
-
+<br><br>
 
 **Completude — valores nulos/vazios por coluna**
 
@@ -326,13 +326,7 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 |---|---|---|---|---|---|---|---|
 |385|238|122|3|0|0|0|0|
 
-Achados (calculados sobre os 1094 registros):
-
-meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic.
-user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários.
-esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte.
-developers: 3 nulos.
-title, platform, date, genres: sem nulos.
+Achados (calculados sobre os 1094 registros): meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic. user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários. esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte. developers: 3 nulos. title, platform, date, genres: sem nulos.  
 Tratamento: nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.<br><br>
 
 **Unicidade — duplicatas**
