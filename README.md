@@ -364,7 +364,7 @@ Achado: meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_scor
 
 Limites IQR para meta_score: [48.0, 104.0] | Outliers encontrados: 9
 
-Achado: aplicando a regra do IQR (1,5x) sobre meta_score, não há outliers relevantes — a distribuição de notas de crítica é razoavelmente concentrada (mediana ~77, desvio padrão ~10,6). Isso é esperado: o Metacritic já agrega várias avaliações antes de publicar a nota, o que naturalmente suaviza extremos.
+Achado: aplicando a regra do IQR (1,5x) sobre meta_score, foram identificados 9 outliers — jogos cuja nota de crítica fica abaixo do limite inferior calculado (48 pontos; o limite superior, 104, fica acima da escala máxima de 100, então nenhum outlier ocorre por nota alta). Tratamento: esses registros não foram removidos, pois representam avaliações genuinamente baixas dentro da escala válida do Metacritic (0-100), e não erros de digitação ou de coleta — removê-los esconderia jogos legitimamente mal avaliados pela crítica, distorcendo a análise.
 
 ## 6. Análise de Dados (Etapa 4.5)
 
