@@ -317,7 +317,7 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 | Unicidade | 2 duplicatas de `title`+`platform` | Removidas com `dropDuplicates` |
 | Consistência | 1 valor de plataforma inválido (`TG16)`); 30 datas fora do padrão (`TBA`, `Canceled`, etc.) | Registro de plataforma inválida descartado; coluna `release_status` criada para separar situação de lançamento da data em si |
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
-| Outliers | Nenhum outlier relevante em `meta_score` pela regra do IQR | Não foi necessário tratamento |
+| Outliers | 9 outliers identificados em `meta_score` pela regra do IQR (limite inferior 48 pontos) | Mantidos sem alteração: são notas baixas genuínas, dentro da escala válida (0-100), não erros de coleta |
 
 
 **Completude — valores nulos/vazios por coluna**
@@ -364,7 +364,7 @@ Achado: meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_scor
 
 Limites IQR para meta_score: [48.0, 104.0] | Outliers encontrados: 9
 
-Achado: aplicando a regra do IQR (1,5x) sobre meta_score, foram identificados 9 outliers — jogos cuja nota de crítica fica abaixo do limite inferior calculado (48 pontos; o limite superior, 104, fica acima da escala máxima de 100, então nenhum outlier ocorre por nota alta). Tratamento: esses registros não foram removidos, pois representam avaliações genuinamente baixas dentro da escala válida do Metacritic (0-100), e não erros de digitação ou de coleta — removê-los esconderia jogos legitimamente mal avaliados pela crítica, distorcendo a análise.
+Achado: aplicando a regra do IQR (1,5x) sobre meta_score, foram identificados 9 outliers — jogos cuja nota de crítica fica abaixo do limite inferior calculado (48 pontos). O limite superior (104) fica acima da própria escala máxima do meta_score (100), então nenhum outlier ocorre por nota alta demais, apenas por nota baixa. Tratamento: esses 9 registros não foram removidos nem alterados, pois representam avaliações genuinamente baixas — dentro da escala válida do Metacritic (0 a 100) — e não erros de digitação ou de coleta. Remover esses jogos distorceria a análise ao esconder títulos legitimamente mal avaliados pela crítica, em vez de refletir a realidade do catálogo.
 
 ## 6. Análise de Dados (Etapa 4.5)
 
