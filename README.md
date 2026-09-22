@@ -321,45 +321,64 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 
 **Completude — valores nulos/vazios por coluna**
 
-|meta_score|user_score|esrb_rating|developers|title|platform|date|genres|
-|---|---|---|---|---|---|---|---|
-|385|238|122|3|0|0|0|0|
+<p align="center">
+<img width="979" height="314" alt="image" src="https://github.com/user-attachments/assets/426bdf5d-bc97-4636-b56f-d4bbc1ab606a" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação de Completude</i></sub>
+</p>
 
 **Achados (calculados sobre os 1094 registros):** meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic. user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários. esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte. developers: 3 nulos. title, platform, date, genres: sem nulos.  
 **Tratamento:** nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.<br><br>
 
 **Unicidade — duplicatas**
 
-|title|platform|count|
-|---|---|---|
-|Art Academy: Lessons for Everyone|3DS|2|
-|Fluidity|WII|2|
+<p align="center">
+<img width="624" height="327" alt="image" src="https://github.com/user-attachments/assets/cfa177bc-1275-4a16-ba69-c7c6353f63e1" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação Unicidade</i></sub>
+</p>
 
 **Achado:** 2 pares duplicados de title+platform.  
 **Tratamento:** removidos via dropDuplicates(["title","platform"]) na Silver, mantendo a primeira ocorrência.<br><br>
 
 **Consistência — formato de platform e date**
 
-<img width="218" height="282" alt="image" src="https://github.com/user-attachments/assets/550a8277-94dc-4fca-9b44-c0ebc8b72428" />
+<p align="center">
+<img width="613" height="410" alt="image" src="https://github.com/user-attachments/assets/e01cc862-04b2-4b3f-99e8-01d33c57e173" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação Consistência</i></sub>
+</p>
 
 **Achado:** o valor TG16) aparece 1 vez e não corresponde a nenhuma plataforma Nintendo válida (resíduo de parsing da fonte original).  
 **Tratamento:** registro descartado na Silver, com a decisão documentada (não é seguro inferir a plataforma correta a partir de 1 registro).<br><br>
 
-<img width="373" height="208" alt="image" src="https://github.com/user-attachments/assets/427b9b50-bb43-4fcc-bd78-55fbba0cf791" />
+<p align="center">
+<img width="658" height="379" alt="image" src="https://github.com/user-attachments/assets/cc3b693b-7802-4931-8896-59cf315988ec" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação Consistência</i></sub>
+</p>
 
 **Achado:** 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados.  
 **Tratamento:** criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.<br><br>
 
 **Acurácia — faixas de valores esperadas**
 
-<img width="228" height="205" alt="image" src="https://github.com/user-attachments/assets/e155d716-b359-4564-8eeb-eadd88870aa4" />
+<p align="center">
+<img width="770" height="431" alt="image" src="https://github.com/user-attachments/assets/b21263f0-ac74-4930-9963-6239f83ec56e" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação Acurácia</i></sub>
+</p>
 
 **Achado:** meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_score fica dentro de 0-10.  
 **Tratamento:** nenhum valor fora do domínio esperado foi encontrado — não foi necessário tratamento de acurácia nessas colunas.<br><br>
 
 **Outliers**
 
-Limites IQR para meta_score: [48.0, 104.0] | Outliers encontrados: 9
+<p align="center">
+<img width="843" height="248" alt="image" src="https://github.com/user-attachments/assets/a3380a34-ced1-4f98-9f8a-e7bfdae2587e" />
+ <br>
+  <sub><i>Código e tabela com resultado da avaliação Outliers</i></sub>
+</p>
 
 **Achado:** aplicando a regra do IQR (1,5x) sobre meta_score, foram identificados 9 outliers — jogos cuja nota de crítica fica abaixo do limite inferior calculado (48 pontos). O limite superior (104) fica acima da própria escala máxima do meta_score (100), então nenhum outlier ocorre por nota alta demais, apenas por nota baixa.  
 **Tratamento:** esses 9 registros não foram removidos nem alterados, pois representam avaliações genuinamente baixas — dentro da escala válida do Metacritic (0 a 100) — e não erros de digitação ou de coleta. Remover esses jogos distorceria a análise ao esconder títulos legitimamente mal avaliados pela crítica, em vez de refletir a realidade do catálogo.<br><br>
