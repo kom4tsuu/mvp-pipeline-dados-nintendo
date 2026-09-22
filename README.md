@@ -122,33 +122,49 @@ Por fim, o DataFrame é gravado como tabela Delta (`bronze.jogos_raw`) dentro do
 </p>
 
 ---
-
+ 
 ## 3. Modelagem e Catálogo de Dados (Etapa 4.3)
-
+ 
+### Por que um Esquema Estrela
+ 
 Foi adotado um **Esquema Estrela**: uma tabela fato (`fato_jogos`, grão = um lançamento) cercada
 de dimensões (`dim_plataforma`, `dim_genero`, `dim_classificacao_etaria`, `dim_data`,
 `dim_desenvolvedora`) e duas tabelas-ponte (`ponte_jogo_genero`, `ponte_jogo_desenvolvedora`)
 para as relações N:N — um jogo pode ter mais de um gênero e mais de uma desenvolvedora, o que não
 caberia em uma dimensão tradicional sem duplicar linhas na fato.
-
+ 
+Essa escolha não é só uma formalidade acadêmica: é o que torna as seis perguntas de negócio da
+Seção 1 possíveis de responder com uma consulta SQL simples. Sem separar plataforma, gênero,
+classificação etária e data em dimensões próprias, cada pergunta ("qual plataforma tem a melhor
+nota?", "qual gênero é mais bem avaliado?") exigiria reprocessar texto bruto toda vez. Com o
+modelo estrela, cada pergunta vira apenas um `JOIN` entre a `fato_jogos` e a dimensão
+correspondente, seguido de um `GROUP BY` — é essa estrutura que o notebook
+[`notebooks/05_analise.py`](notebooks/05_analise.py) explora diretamente.
+ 
 <p align="center">
 <img width="315" height="706" alt="image" src="https://github.com/user-attachments/assets/66f27783-23c6-4c9e-8fea-732f3fc46731" />
  <br>
   <sub><i>Tabelas da camada Gold (fato + dimensões + tabelas-ponte) persistidas no Unity Catalog, compondo o Esquema Estrela do modelo dimensional.</i></sub>
 </p>
-
-O catálogo de dados completo (toda tabela e coluna, tipo, domínio de valores e linhagem) também se encontra em
-[`catalogo_dados.md`](catalogo_dados.md). A construção do modelo está no notebook
-[`notebooks/03_gold_modelagem.py`](notebooks/03_gold_modelagem.py).
-
-Catálogo referente ao modelo dimensional da camada **Gold** (`nintendo_games.gold`),
-construído a partir de `silver.jogos_limpos`. Linhagem completa: **Bronze** (`bronze.jogos_raw`,
-cópia fiel do `NintendoGames.csv`) → **Silver** (`silver.jogos_limpos`, dados limpos e tipados) →
-**Gold** (tabelas abaixo).
-
-## gold.fato_jogos
-Tabela fato. **Grão:** um lançamento (um jogo em uma plataforma específica).
-
+A construção completa do modelo está no notebook
+[`notebooks/03_gold_modelagem.py`](notebooks/03_gold_modelagem.py), que lê a tabela
+`silver.jogos_limpos` já tratada e distribui seu conteúdo entre a tabela fato e as dimensões
+abaixo. A seguir, cada tabela é apresentada com sua estrutura completa (esse é o Catálogo de
+Dados pedido no enunciado — também disponível separadamente em
+[`catalogo_dados.md`](catalogo_dados.md)): o que ela representa, cada campo, seu tipo e seu
+domínio de valores.
+ 
+**Linhagem geral:** todas as tabelas abaixo derivam de `silver.jogos_limpos`, que por sua vez
+deriva de `bronze.jogos_raw` — ou seja, nenhuma informação nova é inventada na Gold, apenas
+reorganizada.
+ 
+### gold.fato_jogos — o centro do modelo
+ 
+Esta é a tabela fato, o coração do Esquema Estrela: cada linha representa **um lançamento**, ou
+seja, um jogo em uma plataforma específica (o mesmo jogo em duas plataformas diferentes gera duas
+linhas). É nela que ficam as métricas que as perguntas de negócio realmente medem — `meta_score`
+e `user_score` — junto com as chaves que apontam para cada dimensão.
+ 
 | Campo | Tipo | Descrição | Domínio / Linhagem |
 |---|---|---|---|
 | jogo_id | bigint | Identificador único do lançamento (surrogate key) | Gerado via `monotonically_increasing_id()` na Gold |
@@ -162,29 +178,46 @@ Tabela fato. **Grão:** um lançamento (um jogo em uma plataforma específica).
 | release_status | string | Situação do lançamento | Valores: `Lancado`, `A anunciar`, `Cancelado` — derivado de `bronze.date` na Silver |
 | release_year | int | Ano de lançamento (quando aplicável) | Extraído de `release_date` |
 | link | string | Caminho relativo da página do jogo no Metacritic | Veio direto de `bronze.link` |
-
-## gold.dim_plataforma
+ 
+### gold.dim_plataforma
+ 
+Dimensão simples: cada linha é uma plataforma Nintendo distinta encontrada no catálogo. É ela que
+responde diretamente à Pergunta 1 (qual plataforma tem a melhor nota média de crítica).
+ 
 | Campo | Tipo | Descrição | Domínio |
 |---|---|---|---|
 | plataforma_id | int | Chave surrogate | — |
 | nome_plataforma | string | Nome da plataforma Nintendo | 3DS, Switch, DS, WII, WIIU, GBA, GC, N64, iOS |
-
-## gold.dim_genero
+ 
+### gold.dim_genero
+ 
+Reúne os gêneros primários distintos do catálogo (o primeiro item da lista original de `genres`
+de cada jogo — a lista completa, com todos os gêneros e subgêneros, fica preservada na tabela-ponte
+`ponte_jogo_genero`, descrita mais abaixo). Usada diretamente na Pergunta 3.
+ 
 | Campo | Tipo | Descrição | Domínio |
 |---|---|---|---|
 | genero_id | int | Chave surrogate | — |
 | nome_genero | string | Gênero primário do jogo | Ex.: Action, Role-Playing, Strategy, Puzzle, Sports (118 valores possíveis na fonte original considerando subgêneros) |
-
-## gold.dim_classificacao_etaria
+ 
+### gold.dim_classificacao_etaria
+ 
+Traduz a sigla ESRB (como aparece no dado bruto) para uma descrição legível, e centraliza esse
+"de-para" em um único lugar — em vez de repetir a explicação da sigla em cada consulta. Usada na
+Pergunta 6, sobre a influência da classificação etária na nota média.
+ 
 | Campo | Tipo | Descrição | Domínio |
 |---|---|---|---|
 | classificacao_id | int | Chave surrogate | — |
 | sigla_esrb | string | Sigla da classificação ESRB | E, E10+, T, M, RP, Nao informado |
 | descricao | string | Descrição por extenso da sigla | Mapeamento fixo definido na Gold |
-
-## gold.dim_data
-Granularidade: dia de lançamento.
-
+ 
+### gold.dim_data
+ 
+Dimensão de calendário, na granularidade de dia de lançamento. Além da data completa, já vem com
+ano, mês e trimestre pré-calculados — o que evita ter que extrair essas partes repetidamente em
+cada consulta (é essa dimensão que sustenta a Pergunta 4, sobre a evolução do catálogo por ano).
+ 
 | Campo | Tipo | Descrição | Domínio |
 |---|---|---|---|
 | data_id | int | Chave surrogate (yyyyMMdd) | — |
@@ -193,36 +226,51 @@ Granularidade: dia de lançamento.
 | mes | int | Mês | 1 a 12 |
 | trimestre | int | Trimestre | 1 a 4 |
 | nome_mes | string | Nome do mês por extenso | Janeiro...Dezembro |
-
-## gold.dim_desenvolvedora
+ 
+### gold.dim_desenvolvedora
+ 
+Reúne os estúdios desenvolvedores distintos citados no catálogo — incluindo a própria Nintendo e
+seus parceiros de longa data (Intelligent Systems, Retro Studios, entre outros). É a base da
+Pergunta 5, sobre quais desenvolvedoras têm os jogos mais bem avaliados.
+ 
 | Campo | Tipo | Descrição | Domínio |
 |---|---|---|---|
 | desenvolvedora_id | int | Chave surrogate | — |
 | nome_desenvolvedora | string | Nome do estúdio desenvolvedor | 207 valores distintos observados (ex.: Nintendo, Intelligent Systems, Retro Studios) |
-
-## gold.ponte_jogo_genero
-Tabela-ponte (relação N:N — um jogo pode ter múltiplos gêneros/subgêneros).
-
+ 
+### As tabelas-ponte: por que elas existem
+ 
+Um jogo como *Super Smash Bros. Ultimate*, por exemplo, pode estar catalogado simultaneamente em
+mais de um gênero (ação e luta) e ter mais de um estúdio envolvido no seu desenvolvimento. Se
+essa informação fosse guardada só como texto dentro da própria `fato_jogos` (como uma lista, por
+exemplo), não seria possível fazer um `JOIN` limpo com `dim_genero` ou `dim_desenvolvedora` sem
+duplicar a linha do jogo na fato uma vez para cada combinação — o que inflaria a contagem de jogos
+em qualquer agregação. A solução clássica de modelagem dimensional para esse tipo de relação
+**N:N** é uma tabela-ponte: uma tabela simples, só com as duas chaves estrangeiras envolvidas, que
+pode ser usada quando a análise precisa considerar *todos* os gêneros/desenvolvedoras de um jogo
+(diferente da `fato_jogos`, que guarda só o gênero *primário* para consultas mais diretas).
+ 
+### gold.ponte_jogo_genero
+ 
 | Campo | Tipo | Descrição |
 |---|---|---|
 | jogo_id | bigint | FK para `fato_jogos` |
 | genero_id | int | FK para `dim_genero` |
-
-## gold.ponte_jogo_desenvolvedora
-Tabela-ponte (relação N:N — um jogo pode ter mais de uma desenvolvedora envolvida).
-
+ 
+### gold.ponte_jogo_desenvolvedora
+ 
 | Campo | Tipo | Descrição |
 |---|---|---|
 | jogo_id | bigint | FK para `fato_jogos` |
 | desenvolvedora_id | int | FK para `dim_desenvolvedora` |
-
-## Linhagem resumida (todas as tabelas)
+ 
+### Linhagem resumida (todas as tabelas)
 Todas as tabelas Gold derivam de `silver.jogos_limpos`, que por sua vez deriva de
 `bronze.jogos_raw` (cópia 1:1 do `NintendoGames.csv`, fonte: dataset
 ["Nintendo Games"](https://www.kaggle.com/datasets/joebeachcapital/nintendo-games) no Kaggle —
 dados de metacritic.com, licença [Database Contents License (DbCL) v1.0](https://opendatacommons.org/licenses/dbcl/1-0/)).
 Nenhuma tabela Gold recebe dados de fontes externas ao arquivo original.
-
+ 
 ---
 
 ## 4. Pipeline de Dados (Etapa 4.4)
