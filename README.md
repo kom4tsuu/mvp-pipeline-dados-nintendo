@@ -393,38 +393,62 @@ As seguir são apresentadas as respostas (validadas sobre o dataset completo) pa
 
 O N64 tem a melhor nota média de crítica da história da Nintendo: 83,97 pontos, em um catálogo pequeno de 31 jogos. Logo atrás vêm Game Boy Advance (79,0), Switch (78,0) e GameCube (77,9). Já 3DS e Wii, os catálogos maiores (centenas de jogos cada), ficam com médias mais baixas, em torno de 73,5. O padrão se repete em outras perguntas: quanto maior e mais variado é o catálogo de uma plataforma, mais a média se aproxima de um valor intermediário. O iOS teve a pior média (67,4), mas com apenas 14 jogos — amostra pequena demais para uma conclusão definitiva.
 
+<p align="center">
 <img width="683" height="574" alt="image" src="https://github.com/user-attachments/assets/c3c8f155-bd10-42f0-b174-5458c45b0206" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 1</i></sub>
+</p>
 
 **2. Existe correlação entre a nota da crítica (`meta_score`) e a nota dos usuários (`user_score`)?**
 
 Na maior parte das vezes, sim, mas não sempre. Entre os 690 jogos que têm as duas notas, o nível de concordância entre crítica e usuários é de 0,625 em uma escala de 0 a 1 (quanto mais perto de 1, mais as duas notas andam juntas) — uma concordância forte, mas longe de ser total. Ou seja, um jogo bem avaliado pela crítica tem boas chances de agradar também os jogadores, mas existe um número relevante de exceções nos dois sentidos. As duas notas se complementam; nenhuma substitui a outra.
 
+<p align="center">
 <img width="503" height="268" alt="image" src="https://github.com/user-attachments/assets/94ca3e5a-919f-42a6-b89d-07dcfb006b37" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 2</i></sub>
+</p>
 
 **3. Quais gêneros de jogos concentram as maiores notas médias de crítica?**
 
 Entre os gêneros com pelo menos 15 jogos lançados (para não deixar um único sucesso distorcer a média), os melhor avaliados são Strategy (82,1 em 91 jogos) e Action Adventure (81,3 em 63 jogos). Os RPGs (Role-Playing) vêm na sequência, com 77,9 de média em 139 jogos — o maior catálogo entre os gêneros bem avaliados. No outro extremo, Adventure (68,9) tem a pior média entre os gêneros relevantes, e Miscellaneous (72,5) — a categoria mais volumosa do catálogo, com 234 jogos — também fica abaixo da média geral.
 
+<p align="center">
 <img width="515" height="595" alt="image" src="https://github.com/user-attachments/assets/b1b4228a-90c1-4c2e-8a47-0ae0c0790240" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 3</i></sub>
+</p>
 
 **4. Como evoluíram o número de lançamentos e a nota média de crítica ao longo dos anos?**
 
 Nos primeiros anos do dataset (1996 a 2002), a Nintendo lançava poucos jogos por ano, mas praticamente todos com nota acima de 80 pontos. A partir de meados dos anos 2000, o volume de lançamentos cresceu de forma acentuada — com picos em 2007 (86 jogos) e 2009 (90 jogos) —, e a nota média de crítica caiu e se estabilizou entre 73 e 78 pontos, patamar que se mantém até hoje. O dado não indica queda de qualidade da Nintendo como empresa; indica que, ao produzir mais jogos para públicos mais variados, a média do catálogo naturalmente se aproxima do centro — o mesmo efeito observado na Pergunta 1.
 
+<p align="center">
 <img width="485" height="693" alt="image" src="https://github.com/user-attachments/assets/0c733229-6b34-4ab7-9680-01fbfde0774a" />
 <img width="485" height="329" alt="image" src="https://github.com/user-attachments/assets/48ee513f-a443-48c9-9d05-d3ca6e0a7230" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 4</i></sub>
+</p>
 
 **5. Quais desenvolvedoras (fora a própria Nintendo) produzem os jogos mais bem avaliados?**
 
 Excluindo a própria Nintendo, a Retro Studios lidera com média de 89,4 pontos (10 jogos, incluindo a série Metroid Prime). Em seguida, empatadas, Monolith Soft e Rare Ltd., ambas com 83,7. Destaque para a Intelligent Systems (Fire Emblem, Advance Wars): além de manter nota alta (80,8), é a desenvolvedora terceira com maior volume no catálogo — 99 jogos —, mostrando que consegue qualidade consistente mesmo em grande escala.
 
+<p align="center">
 <img width="541" height="776" alt="image" src="https://github.com/user-attachments/assets/0f152c9d-46c3-4a67-be7c-3bc524ea8a9f" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 5</i></sub>
+</p>
 
 **6. A classificação etária (ESRB) influencia a nota média dos jogos?**
 
 Não. As notas médias por classificação etária ficam dentro de uma faixa estreita: jogos T (Adolescentes) têm a maior média (79,5), seguidos por M (Maduro, 78,6) — base pequena, só 15 jogos —, E10+ (76,3) e E (Livre para todos, 75,7). A categoria E, de longe a mais comum no catálogo (660 dos 1.094 jogos, ou 6 em cada 10 lançamentos), fica apenas cerca de 4 pontos abaixo da líder. Ou seja, a classificação etária não é um fator determinante de qualidade no catálogo Nintendo.
 
+<p align="center">
 <img width="818" height="493" alt="image" src="https://github.com/user-attachments/assets/fc30381d-8111-4269-b309-f3ad2c6e4b57" />
+ <br>
+  <sub><i>Código e tabela com resultado da análise para a pergunta 6</i></sub>
+</p>
 
 **Conclusão geral**
 
