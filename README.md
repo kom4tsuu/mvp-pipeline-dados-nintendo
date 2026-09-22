@@ -275,9 +275,54 @@ diretamente na plataforma).
 | Transformei as colunas `genres` e `developers` (strings no formato `"['Action','Platformer']"`) em arrays reais do Spark, e extraí o primeiro item de `genres` como `primary_genre` | Um jogo pode ter mais de um gênero e mais de uma desenvolvedora; manter isso como texto impediria explodir essas listas em relações N:N na modelagem Gold | Cada jogo passa a ter um gênero primário para análises simples, e a lista completa de gêneros/desenvolvedoras fica disponível para as tabelas-ponte da camada Gold |
 | Padronizei valores nulos/vazios de `esrb_rating` para o rótulo `"Nao informado"` | Deixar explícito, em qualquer agrupamento ou relatório, que a ausência da classificação é um dado da fonte original, e não um erro do pipeline | Nenhuma linha some de agregações por `esrb_rating`; os 122 jogos sem classificação continuam visíveis nas análises |
 
-<img width="1364" height="560" alt="image" src="https://github.com/user-attachments/assets/8f1f3e41-fa1c-4ba1-a335-47a92f9d5b70" />
-<img width="1350" height="372" alt="image" src="https://github.com/user-attachments/assets/c93b7b2a-afe8-4b37-9926-bacb128875a4" />
- 
+<p align="center">
+<img width="613" height="209" alt="image" src="https://github.com/user-attachments/assets/a387d46d-f794-4654-8fa4-d3622ee99583" />
+ <br>
+  <sub><i>Código e resultado da remoção de duplicatas</i></sub>
+</p>
+
+<p align="center">
+<img width="643" height="210" alt="image" src="https://github.com/user-attachments/assets/003d3fa5-905d-473b-af29-1d853c543072" />
+ <br>
+  <sub><i>Código e resultado da padronização da coluna platform</i></sub>
+</p>
+
+<p align="center">
+<img width="658" height="683" alt="image" src="https://github.com/user-attachments/assets/d56a6c73-e62b-49dc-a15e-b2c5e3c893e3" />
+ <br>
+  <sub><i>Código e resultado do tratamento da coluna date</i></sub>
+</p>
+
+<p align="center">
+<img width="553" height="126" alt="image" src="https://github.com/user-attachments/assets/168fa876-f9b7-4b17-93c9-754cfdae44a8" />
+ <br>
+  <sub><i>Código da tipagem correta de meta_score e user_score</i></sub>
+</p>
+
+<p align="center">
+<img width="746" height="382" alt="image" src="https://github.com/user-attachments/assets/f4378388-0433-4aa5-8d2a-1acd075b26ab" />
+ <br>
+  <sub><i>Código do parsing de genres e developers</i></sub>
+</p>
+
+<p align="center">
+<img width="729" height="141" alt="image" src="https://github.com/user-attachments/assets/8ad8c4f5-9d43-49d4-9f3d-672f72acf603" />
+ <br>
+  <sub><i>Código de padronização de esrb_rating</i></sub>
+</p>
+
+<p align="center">
+<img width="633" height="473" alt="image" src="https://github.com/user-attachments/assets/15d957a0-a820-4e22-97e8-0e44dfb45ba2" />
+ <br>
+  <sub><i>Código da seleção final e persistência Silver</i></sub>
+</p>
+
+<p align="center">
+<img width="1531" height="283" alt="image" src="https://github.com/user-attachments/assets/adf46361-e915-43cd-9fc2-c1267f3fab5c" />
+ <br>
+  <sub><i>Tabela de demonstração da tabela de persistência Silver</i></sub>
+</p>
+
 ### Transformações da camada Gold (`03_gold_modelagem.py`)
  
 | O que foi feito | Por que foi feito | Impacto nos dados |
