@@ -413,7 +413,7 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
 | Outliers | 9 outliers identificados em `meta_score` pela regra do IQR (limite inferior 48 pontos) | Mantidos sem alteração: são notas baixas genuínas, dentro da escala válida (0-100), não erros de coleta |  
 
-**Completude — valores nulos/vazios por coluna**
+### Completude — valores nulos/vazios por coluna
 
 <p align="center">
 <img width="979" height="314" alt="image" src="https://github.com/user-attachments/assets/426bdf5d-bc97-4636-b56f-d4bbc1ab606a" />
@@ -428,7 +428,7 @@ esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada 
 developers: 3 nulos. title, platform, date, genres: sem nulos.  
 **Tratamento:** nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.<br><br>
 
-**Unicidade — duplicatas**
+### Unicidade — duplicatas
 
 <p align="center">
 <img width="624" height="327" alt="image" src="https://github.com/user-attachments/assets/cfa177bc-1275-4a16-ba69-c7c6353f63e1" />
@@ -439,7 +439,7 @@ developers: 3 nulos. title, platform, date, genres: sem nulos.
 **Achado:** 2 pares duplicados de title+platform.  
 **Tratamento:** removidos via dropDuplicates(["title","platform"]) na Silver, mantendo a primeira ocorrência.<br><br>
 
-**Consistência — formato de platform e date**
+### Consistência — formato de platform e date
 
 <p align="center">
 <img width="613" height="410" alt="image" src="https://github.com/user-attachments/assets/e01cc862-04b2-4b3f-99e8-01d33c57e173" />
@@ -459,7 +459,7 @@ developers: 3 nulos. title, platform, date, genres: sem nulos.
 **Achado:** 30 registros com date fora do padrão (TBA, Canceled, TBA 2024, TBA 2011, TBA 2010, Q4 2015) — representam jogos anunciados mas não lançados, ou cancelados.  
 **Tratamento:** criada a coluna release_status (Lancado / A anunciar / Cancelado) na Silver; release_date fica NULL para os que não têm data real, preservando a informação em vez de descartar a linha inteira.<br><br>
 
-**Acurácia — faixas de valores esperadas**
+### Acurácia — faixas de valores esperadas
 
 <p align="center">
 <img width="770" height="431" alt="image" src="https://github.com/user-attachments/assets/b21263f0-ac74-4930-9963-6239f83ec56e" />
@@ -470,7 +470,7 @@ developers: 3 nulos. title, platform, date, genres: sem nulos.
 **Achado:** meta_score varia de 37 a 99 (dentro da escala válida 0-100) e user_score fica dentro de 0-10.  
 **Tratamento:** nenhum valor fora do domínio esperado foi encontrado — não foi necessário tratamento de acurácia nessas colunas.<br><br>
 
-**Outliers**
+### Outliers
 
 <p align="center">
 <img width="843" height="248" alt="image" src="https://github.com/user-attachments/assets/a3380a34-ced1-4f98-9f8a-e7bfdae2587e" />
