@@ -421,7 +421,11 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
   <sub><i>Código e tabela com resultado da avaliação de Completude</i></sub>
 </p>
 
-**Achados (calculados sobre os 1094 registros):** meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic. user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários. esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte. developers: 3 nulos. title, platform, date, genres: sem nulos.  
+**Achados (calculados sobre os 1094 registros):**  
+meta_score: 385 nulos (35,2%) — muitos jogos, sobretudo mais antigos ou de nicho, nunca receberam nota consolidada da crítica no Metacritic.  
+user_score: 238 nulos (21,7%) — jogos sem volume suficiente de avaliações de usuários.  
+esrb_rating: 122 nulos (11,2%) — jogos sem classificação etária cadastrada na fonte.  
+developers: 3 nulos. title, platform, date, genres: sem nulos.  
 **Tratamento:** nulos em meta_score/user_score foram mantidos como NULL (ausência real da nota, não um erro — forçar um valor como 0 distorceria qualquer média). Nulos em esrb_rating foram padronizados para o rótulo "Nao informado" na Silver, para ficarem explícitos nas análises em vez de somem como NULL silencioso.<br><br>
 
 **Unicidade — duplicatas**
