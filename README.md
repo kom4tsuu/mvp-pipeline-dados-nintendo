@@ -96,6 +96,17 @@ O `NintendoGames.csv` foi enviado para um **Volume do Unity Catalog**
 tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com metadados de
 controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para rastreabilidade.
 
+Antes de qualquer processamento, o arquivo bruto precisou ser trazido para dentro do ambiente de
+nuvem. Isso foi feito via upload direto na interface do Databricks, para um Volume do Unity
+Catalog dedicado à camada Bronze — o mesmo caminho que o notebook `01_bronze_ingestao.py` lê na
+sua primeira etapa.
+
+<p align="center">
+<img width="1125" height="574" alt="image" src="https://github.com/user-attachments/assets/250ce7a3-9e84-45f3-94bc-a27d2f72cfb7" />
+ <br>
+  <sub><i>Arquivo NintendoGames.csv enviado ao Volume raw_files (schema bronze), origem da ingestão do pipeline.</i></sub>
+</p>
+
 A seguir são descritas as etapas para efetuar a carga dos dados:
 
 **Etapa 1 - Configuração do catálogo e schemas**
