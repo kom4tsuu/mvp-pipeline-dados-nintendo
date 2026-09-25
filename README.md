@@ -10,6 +10,8 @@
 
 **Dataset:** `NintendoGames.csv` — jogos da Nintendo com notas de crítica e usuários (Metacritic)
 
+Este documento acompanha, na ordem em que aconteceram de verdade, as etapas de construção deste MVP: primeiro o objetivo e as perguntas que o pipeline precisa responder (Seção 1); depois como os dados brutos chegaram até a nuvem (Seção 2); como foram organizados em um modelo dimensional (Seção 3); como o pipeline de transformação foi construído (Seção 4); quais problemas de qualidade foram encontrados pelo caminho e como foram tratados (Seção 5); as respostas às perguntas de negócio (Seção 6); e, por fim, uma reflexão sobre o processo como um todo (Seção 7).
+
 ## 1. Contexto de Negócio e Perguntas (Etapa 2 e 4.1)
 
 ### Objetivo do trabalho
@@ -89,25 +91,21 @@ jogos evoluiu ao longo do tempo?**
 
 ## 2. Carga dos Dados (Etapa 4.2)
 
-O `NintendoGames.csv` foi enviado para um **Volume do Unity Catalog**
-(`/Volumes/nintendo_games/bronze/raw_files/`) via upload direto na interface do Databricks
-(Catalog → Volumes → Upload to this volume), e lido com `spark.read.csv` no notebook
-[`notebooks/01_bronze_ingestao.py`](notebooks/01_bronze_ingestao.py). O dado foi persistido como
-tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com metadados de
-controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para rastreabilidade.
-
 Antes de qualquer processamento, o arquivo bruto precisou ser trazido para dentro do ambiente de
-nuvem. Isso foi feito via upload direto na interface do Databricks, para um Volume do Unity
-Catalog dedicado à camada Bronze — o mesmo caminho que o notebook `01_bronze_ingestao.py` lê na
-sua primeira etapa.
-
+nuvem. Isso foi feito via upload direto na interface do Databricks: o `NintendoGames.csv` foi
+enviado para um **Volume do Unity Catalog** (`/Volumes/nintendo_games/bronze/raw_files/`) —
+exatamente o caminho que o notebook [`notebooks/01_bronze_ingestao.py`](notebooks/01_bronze_ingestao.py)
+lê em sua primeira etapa, usando `spark.read.csv`.
+ 
 <p align="center">
 <img width="1125" height="574" alt="image" src="https://github.com/user-attachments/assets/250ce7a3-9e84-45f3-94bc-a27d2f72cfb7" />
  <br>
   <sub><i>Arquivo NintendoGames.csv enviado ao Volume raw_files (schema bronze), origem da ingestão do pipeline.</i></sub>
 </p>
-
-A seguir são descritas as etapas para efetuar a carga dos dados:
+A partir daí, o notebook `01_bronze_ingestao.py` assume o processamento e persiste o dado bruto
+como tabela Delta `bronze.jogos_raw`, sem nenhuma transformação de conteúdo — apenas com
+metadados de controle (`_ingestion_timestamp`, `_source_file`, `_source_origin`) para
+rastreabilidade. A seguir são descritas as quatro etapas desse notebook:
 
 **Etapa 1 - Configuração do catálogo e schemas**
 
@@ -189,7 +187,11 @@ e `user_score` — junto com as chaves que apontam para cada dimensão.
 | release_status | string | Situação do lançamento | Valores: `Lancado`, `A anunciar`, `Cancelado` — derivado de `bronze.date` na Silver |
 | release_year | int | Ano de lançamento (quando aplicável) | Extraído de `release_date` |
 | link | string | Caminho relativo da página do jogo no Metacritic | Veio direto de `bronze.link` |
- 
+
+Com a `fato_jogos` definida, cada dimensão abaixo representa um dos eixos pelos quais o catálogo
+pode ser analisado — é olhando para elas, uma a uma, que as perguntas de negócio da Seção 1 vão
+ganhando resposta:
+
 ### gold.dim_plataforma
  
 Dimensão simples: cada linha é uma plataforma Nintendo distinta encontrada no catálogo. É ela que
@@ -334,6 +336,9 @@ diretamente na plataforma).
 | Transformei as colunas `genres` e `developers` (strings no formato `"['Action','Platformer']"`) em arrays reais do Spark, e extraí o primeiro item de `genres` como `primary_genre` | Um jogo pode ter mais de um gênero e mais de uma desenvolvedora; manter isso como texto impediria explodir essas listas em relações N:N na modelagem Gold | Cada jogo passa a ter um gênero primário para análises simples, e a lista completa de gêneros/desenvolvedoras fica disponível para as tabelas-ponte da camada Gold |
 | Padronizei valores nulos/vazios de `esrb_rating` para o rótulo `"Nao informado"` | Deixar explícito, em qualquer agrupamento ou relatório, que a ausência da classificação é um dado da fonte original, e não um erro do pipeline | Nenhuma linha some de agregações por `esrb_rating`; os 122 jogos sem classificação continuam visíveis nas análises |  
 
+Abaixo está a evidência de execução de cada uma dessas sete transformações, na mesma ordem em que
+aparecem no notebook `02_silver_transformacao.py`, encerrando com a persistência final da tabela
+`silver.jogos_limpos`:
 
 <p align="center">
 <img width="613" height="209" alt="image" src="https://github.com/user-attachments/assets/a387d46d-f794-4654-8fa4-d3622ee99583" />
@@ -383,6 +388,9 @@ diretamente na plataforma).
   <sub><i>Tabela de demonstração da tabela de persistência Silver</i></sub>
 </p>
 
+Com `silver.jogos_limpos` limpa, tipada e persistida, o pipeline está pronto para a última
+transformação: reorganizar esses dados no modelo dimensional apresentado na Seção 3.
+ 
 ### Transformações da camada Gold (`03_gold_modelagem.py`)
  
 | O que foi feito | Por que foi feito | Impacto nos dados |
@@ -390,6 +398,11 @@ diretamente na plataforma).
 | Criei as dimensões `dim_plataforma`, `dim_genero`, `dim_classificacao_etaria` e `dim_data`, cada uma com uma chave surrogate própria | Um Esquema Estrela exige que atributos descritivos fiquem isolados em dimensões, em vez de repetidos em toda linha da fato — isso reduz redundância e centraliza a descrição de cada atributo (ex.: descrição por extenso de cada sigla ESRB) | As consultas de análise (notebook 05) passam a fazer `JOIN` simples entre fato e dimensão em vez de repetir texto bruto em cada linha |
 | Fiz o `JOIN` entre `silver.jogos_limpos` e as quatro dimensões acima pelos respectivos nomes/valores, para montar a `fato_jogos` com as chaves substituindo os textos originais | Enriquecer cada linha de fato com as chaves corretas de cada dimensão, seguindo o padrão de Esquema Estrela — o mesmo princípio do exemplo do enunciado (JOIN de vendas com produtos por `product_id`), aqui aplicado a jogo × plataforma/gênero/classificação/data | A tabela fato fica compacta (só chaves + métricas), enquanto o significado de cada atributo mora nas dimensões, facilitando manutenção e consultas |
 | Explodi (`explode`) os arrays `genres_array` e `developers_array` para criar as tabelas-ponte `ponte_jogo_genero` e `ponte_jogo_desenvolvedora`, junto com a nova dimensão `dim_desenvolvedora` | Um jogo pode ter vários gêneros e vários estúdios envolvidos — uma relação N:N não cabe como coluna única na tabela fato sem duplicar linhas | Passa a ser possível responder perguntas que consideram todos os gêneros/desenvolvedoras de um jogo (não só o primário), sem distorcer a contagem de jogos na fato |
+
+A evidência de que essas 8 tabelas foram persistidas com sucesso já foi apresentada na Seção 3
+(print do schema `gold` no Catalog Explorer). Com o pipeline completo — Bronze, Silver e Gold —,
+vale voltar um passo atrás e detalhar os problemas de qualidade que, na prática, justificaram
+várias das decisões de tratamento tomadas na Silver.
 
 ---
 
@@ -423,6 +436,9 @@ Análise completa no notebook [`notebooks/04_qualidade_dados.py`](notebooks/04_q
 | Consistência | 1 valor de plataforma inválido (`TG16)`); 30 datas fora do padrão (`TBA`, `Canceled`, etc.) | Registro de plataforma inválida descartado; coluna `release_status` criada para separar situação de lançamento da data em si |
 | Acurácia | Nenhum valor fora do domínio esperado (`meta_score` 37-99, `user_score` dentro de 0-10) | Não foi necessário tratamento |
 | Outliers | 9 outliers identificados em `meta_score` pela regra do IQR (limite inferior 48 pontos) | Mantidos sem alteração: são notas baixas genuínas, dentro da escala válida (0-100), não erros de coleta |  
+
+Esse é o resumo; a seguir, cada uma das cinco dimensões é detalhada individualmente, com o código
+executado, o resultado obtido e a decisão de tratamento tomada a partir dele.
 
 ### Completude — valores nulos/vazios por coluna
 
@@ -562,6 +578,9 @@ Não. As notas médias por classificação etária ficam dentro de uma faixa est
 **Conclusão geral**
 
 O padrão que se repete nas seis respostas é o mesmo: volume e nota média caminham em direções opostas. Recortes menores e mais concentrados (N64, Strategy, Retro Studios, os primeiros anos da empresa) sustentam médias mais altas; recortes grandes e diversos (3DS, Wii, Miscellaneous, os anos de pico de lançamentos) tendem a ficar mais perto da média geral do catálogo. A classificação etária é a exceção: não segue esse padrão e não se mostrou um fator relevante de qualidade.
+
+Com as seis perguntas respondidas, resta refletir sobre o processo de construção deste MVP como
+um todo, o que fecha este documento na seção final.
 
 ---
 
